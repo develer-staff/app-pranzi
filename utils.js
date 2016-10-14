@@ -28,11 +28,11 @@ export function composeQueryParameters(data) {
   return '?' + Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
 }
 
-export function getStorageItem(key, func) {
+export function getStorageItem(key) {
   return AsyncStorage.getItem(key);
 }
 
-export function setStorageItem(key, value, func, errorFunc) {
+export function setStorageItem(key, value) {
   return AsyncStorage.setItem(key, value);
 }
 

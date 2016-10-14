@@ -49,12 +49,7 @@ export default class InsertUsername extends Component {
     this.onVerifyPressed = this.onVerifyPressed.bind(this);
 
     AsyncStorage.getItem(STORAGE_KEY).then((value) => {
-      let searchString = '';
       value = value || '';
-      if (value !== null) {
-        searchString = value;
-        console.log('constructor', searchString);
-      }
       this.setState({ searchString: value });
     }).done();
   }
@@ -96,7 +91,7 @@ export default class InsertUsername extends Component {
   }
 
   requestForSheetMetadata() {
-    var query = [SPREADSHEET_GOOGLE_API_URL, SPREADSHEET_ID, composeQueryParameters({ 'includeGridData': 'false' })].join('/');
+    const query = [SPREADSHEET_GOOGLE_API_URL, SPREADSHEET_ID, composeQueryParameters({ 'includeGridData': 'false' })].join('/');
     fetch(query)
       .then(response => response.json())
       .then(json => this.requestForNames(this._handleSheetMetadataResponse(json)))
@@ -111,21 +106,19 @@ export default class InsertUsername extends Component {
   }
 
   requestForNames(columnCount) {
-    var query = [SPREADSHEET_GOOGLE_API_URL, SPREADSHEET_ID, VALUES_BATCH_GET, composeQueryParameters({ 'ranges': 'B1:' + columnToLetter(columnCount) + '1' })].join('/');
+    const query = [SPREADSHEET_GOOGLE_API_URL, SPREADSHEET_ID, VALUES_BATCH_GET, composeQueryParameters({ 'ranges': 'B1:' + columnToLetter(columnCount) + '1' })].join('/');
     return fetch(query);
   }
 
   _handleRequestForNamesResponse(response) {
     const names = response['valueRanges'][0]['values'][0];
-    var nameFound = false;
-    for (var i = 0; i < names.length; i++) {
+    let nameFound = false;
+    for (let i = 0; i < names.length; i++) {
       if (names[i].toLowerCase() === this.state.searchString) {
         Alert.alert('Name found', 'Name found in position ' + i.toString());
         nameFound = true;
         try {
           AsyncStorage.setItem(STORAGE_KEY, names[i].toLowerCase());
-          var a = AsyncStorage.getItem(STORAGE_KEY);
-          console.log('ho appena salvato la chiave', a);
         } catch (error) {
           Alert.alert('Save problem', 'Unable to save username');
         }
@@ -139,7 +132,7 @@ export default class InsertUsername extends Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   description: {
     marginBottom: 20,
     fontSize: 18,

@@ -9,32 +9,15 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  Alert,
-  AsyncStorage
+  Alert
 } from 'react-native';
 
-const SPREADSHEET_ID = '1Ox0nwWTKa_PgM7O6ZfMrbRyOcscjCkOdUKn0QNV91Rk';
-const APP_KEY = 'AIzaSyDR1nYnRjKy1DzsE83pfllMJxPEcJ-bI9Q';
-const SPREADSHEET_GOOGLE_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets';
-const VALUES_BATCH_GET = 'values:batchGet';
-const STORAGE_KEY = '@Username:key';
-
-function columnToLetter(column) {
-  let temp;
-  let letter = '';
-  while (column > 0) {
-    temp = (column - 1) % 26;
-    letter = String.fromCharCode(temp + 65) + letter;
-    column = (column - temp - 1) / 26;
-  }
-  return letter;
-}
-
-function composeQueryParameters(data) {
-  // Add App Key to query
-  data['key'] = APP_KEY;
-  return '?' + Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
-}
+import {
+  getStorageItem,
+  setStorageItem,
+  verifyName,
+  USERNAME_STORAGE_KEY
+} from './utils.js';
 
 export default class InsertUsername extends Component {
 
@@ -48,10 +31,12 @@ export default class InsertUsername extends Component {
 
     this.onVerifyPressed = this.onVerifyPressed.bind(this);
 
-    AsyncStorage.getItem(STORAGE_KEY).then((value) => {
-      value = value || '';
-      this.setState({ searchString: value });
-    }).done();
+    getStorageItem(USERNAME_STORAGE_KEY)
+      .then(value => this.setState({ searchString: value || '' }))
+      .catch(error => {
+        Alert.alert('Error', 'Unable to access to local storage');
+        console.log('ERROR', error);
+      });
   }
 
   render() {
@@ -79,56 +64,21 @@ export default class InsertUsername extends Component {
       return;
     }
 
-    this.setState({
-      verifying: true,
-      searchString: this.state.searchString.toLowerCase()
-    });
-    this._verifyName();
-  }
+    this.setState({ verifying: true });
 
-  _verifyName() {
-    this.requestForSheetMetadata();
-  }
-
-  requestForSheetMetadata() {
-    const query = [SPREADSHEET_GOOGLE_API_URL, SPREADSHEET_ID, composeQueryParameters({ 'includeGridData': 'false' })].join('/');
-    fetch(query)
-      .then(response => response.json())
-      .then(json => this.requestForNames(this._handleSheetMetadataResponse(json)))
-      .then(response => response.json())
-      .then(json => this._handleRequestForNamesResponse(json))
-      .catch(error => console.log('ERROR', error));
-  }
-
-  _handleSheetMetadataResponse(response) {
-    const gridProperties = response['sheets'][0]['properties']['gridProperties'];
-    return gridProperties['columnCount'];
-  }
-
-  requestForNames(columnCount) {
-    const query = [SPREADSHEET_GOOGLE_API_URL, SPREADSHEET_ID, VALUES_BATCH_GET, composeQueryParameters({ 'ranges': 'B1:' + columnToLetter(columnCount) + '1' })].join('/');
-    return fetch(query);
-  }
-
-  _handleRequestForNamesResponse(response) {
-    const names = response['valueRanges'][0]['values'][0];
-    let nameFound = false;
-    for (let i = 0; i < names.length; i++) {
-      if (names[i].toLowerCase() === this.state.searchString) {
-        Alert.alert('Name found', 'Name found in position ' + i.toString());
-        nameFound = true;
-        try {
-          AsyncStorage.setItem(STORAGE_KEY, names[i].toLowerCase());
-        } catch (error) {
-          Alert.alert('Save problem', 'Unable to save username');
-        }
-        break;
+    verifyName(this.state.searchString.toLowerCase(), (found) => {
+      if (found) {
+        setStorageItem(USERNAME_STORAGE_KEY, this.state.searchString)
+          .then(() => Alert.alert('Name found', 'Name found'))
+          .catch(error => {
+            Alert.alert('Error', 'Unable to save username');
+            console.log('ERROR', error);
+          });
+      } else {
+        Alert.alert('Name not found', 'Unable to find name ' + this.state.searchString);
       }
-    }
-    if (!nameFound) {
-      Alert.alert('Name not found', 'Unable to find name ' + this.state.searchString);
-    }
-    this.setState({ verifying: false });
+      this.setState({ verifying: false });
+    });
   }
 }
 

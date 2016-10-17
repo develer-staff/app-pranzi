@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import {
   View,
@@ -18,6 +18,8 @@ import {
   verifyName,
   USERNAME_STORAGE_KEY
 } from './utils.js';
+
+import InsertLunch from './InsertLunch.js';
 
 export default class InsertUsername extends Component {
 
@@ -66,10 +68,13 @@ export default class InsertUsername extends Component {
 
     this.setState({ verifying: true });
 
-    verifyName(this.state.searchString.toLowerCase(), (found) => {
+    verifyName(this.state.searchString, (found) => {
       if (found) {
         setStorageItem(USERNAME_STORAGE_KEY, this.state.searchString)
-          .then(() => Alert.alert('Name found', 'Name found'))
+          .then(() => this.props.navigator.replace({
+            title: 'Insert lunch',
+            component: InsertLunch
+          }))
           .catch(error => {
             Alert.alert('Error', 'Unable to save username');
             console.log('ERROR', error);
@@ -81,6 +86,10 @@ export default class InsertUsername extends Component {
     });
   }
 }
+
+InsertUsername.propTypes = {
+  navigator: PropTypes.object.isRequired
+};
 
 const styles = StyleSheet.create({
   description: {

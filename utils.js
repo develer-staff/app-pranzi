@@ -22,6 +22,12 @@ function columnToLetter(column) {
   return letter;
 }
 
+export function checkSavedUsername(func) {
+  getStorageItem(USERNAME_STORAGE_KEY)
+  .then(value => verifyName(value, func))
+  .catch(error => console.log('ERROR', error));
+}
+
 export function composeQueryParameters(data) {
   // Add App Key to query
   data['key'] = APP_KEY;
@@ -37,7 +43,7 @@ export function setStorageItem(key, value) {
 }
 
 export function verifyName(searchedName, func) {
-  requestForSheetMetadata(searchedName, func);
+  requestForSheetMetadata(searchedName.toLowerCase(), func);
 }
 
 function requestForSheetMetadata(searchedName, func) {

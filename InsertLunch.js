@@ -4,14 +4,21 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 
 import SelectDate from './SelectDate.js';
 
+import { getUserInfo, addLunch } from './utils.js';
+
 const FIRST = 1;
 const SECOND = 2;
 const DESSERT = 4;
+
+const COURSES = [{ str: 'F', value: FIRST, strToSend: 'P' },
+  { str: 'S', value: SECOND, strToSend: 'S' }, { str: 'D', value: DESSERT, strToSend: 'D' }];
 
 export default class InsertLunch extends Component {
   constructor(props) {
@@ -19,14 +26,40 @@ export default class InsertLunch extends Component {
     this.state = {
       date: new Date(),
       tempDate: new Date(),
-      selectedCourses: 0
+      selectedCourses: 0,
+      selectedUsername: '',
+      loading: false
     };
     this.onSelectDatePressed = this.onSelectDatePressed.bind(this);
     this.onDateChanged = this.onDateChanged.bind(this);
+    this.onSendPressed = this.onSendPressed.bind(this);
   }
 
   onDateChanged(date) {
     this.setState({ tempDate: date });
+  }
+
+  componentWillMount() {
+    getUserInfo()
+      .then((values) => {
+        console.log('values', values);
+        this.setState({
+          selectedUsername: values
+        });
+      })
+      .catch(() => {
+        this.setState({ selectedUsername: '' });
+      });
+  }
+
+  onSendPressed() {
+    this.setState({ loading: true });
+    addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, COURSES.map((course) => {
+      return this.state.selectedCourses & course.value ? course.strToSend : '';
+    }).join(''), (result) => {
+      this.setState({ loading: false });
+      Alert.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
+    });
   }
 
   onSelectDatePressed() {
@@ -53,8 +86,7 @@ export default class InsertLunch extends Component {
   }
 
   createCourseButtons() {
-    const courses = [{ str: 'F', value: FIRST }, { str: 'S', value: SECOND }, { str: 'D', value: DESSERT }];
-    return courses.map((course, i) => {
+    return COURSES.map((course, i) => {
       const courseSelected = this.state.selectedCourses & course.value;
       return (
         <TouchableOpacity
@@ -73,6 +105,10 @@ export default class InsertLunch extends Component {
 
     const courseButtons = this.createCourseButtons();
 
+    const selectedUsername = this.state.selectedUsername !== '' ? (<Text style={styles.description}>Selected username: {this.state.selectedUsername}</Text>) : null;
+
+    const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
+
     return (
       <View style={styles.container}>
         <Text style={styles.description}>Select the day</Text>
@@ -83,23 +119,20 @@ export default class InsertLunch extends Component {
         <View style={{ flexDirection: 'row' }}>
           {courseButtons}
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Nothing</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={this.onSendPressed}>
             <Text style={styles.buttonText}>Send</Text>
           </TouchableOpacity>
         </View>
+        {selectedUsername}
+        {spinner}
       </View>
     );
   }
 
-  onValueChange(key, value) {
-    const newState = {};
-    newState[key] = value;
-    this.setState(newState);
-  };
 }
 
 InsertLunch.propTypes = {
@@ -109,6 +142,7 @@ InsertLunch.propTypes = {
 const styles = StyleSheet.create({
   description: {
     marginBottom: 20,
+    marginTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: '#656565'
@@ -129,7 +163,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    margin: 10
   },
   buttonText: {
     fontSize: 18,

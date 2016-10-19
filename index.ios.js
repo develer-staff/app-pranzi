@@ -50,7 +50,7 @@ export default class AppPranzi extends Component {
     const component = this.state.usernameAvailable ? InsertLunch : InsertUsername;
     return (
       <NavigatorIOS style={styles.container}
-        initialRoute={{ component: component, title: 'Pranzi' }}
+        initialRoute={{ component: component, title: 'Lunch' }}
         />
     );
   }

@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import {
-  getStorageItem,
   setStorageItem,
   verifyName,
   USERNAME_STORAGE_KEY
@@ -32,13 +31,6 @@ export default class InsertUsername extends Component {
     };
 
     this.onVerifyPressed = this.onVerifyPressed.bind(this);
-
-    getStorageItem(USERNAME_STORAGE_KEY)
-      .then(value => this.setState({ searchString: value || '' }))
-      .catch(error => {
-        Alert.alert('Error', 'Unable to access to local storage');
-        console.log('ERROR', error);
-      });
   }
 
   render() {
@@ -68,7 +60,7 @@ export default class InsertUsername extends Component {
 
     this.setState({ verifying: true });
 
-    verifyName(this.state.searchString, (found) => {
+    verifyName(this.state.searchString.toLocaleLowerCase(), (found) => {
       if (found) {
         setStorageItem(USERNAME_STORAGE_KEY, this.state.searchString)
           .then(() => this.props.navigator.replace({

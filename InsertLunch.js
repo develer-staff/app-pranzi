@@ -22,10 +22,10 @@ export default class InsertLunch extends Component {
       selectedCourses: 0
     };
     this.onSelectDatePressed = this.onSelectDatePressed.bind(this);
-    this.onDateChange = this.onDateChange.bind(this);
+    this.onDateChanged = this.onDateChanged.bind(this);
   }
 
-  onDateChange(date) {
+  onDateChanged(date) {
     this.setState({ tempDate: date });
   }
 
@@ -35,7 +35,7 @@ export default class InsertLunch extends Component {
       component: SelectDate,
       passProps: {
         date: this.state.date,
-        onDateChange: this.onDateChange
+        onDateChanged: this.onDateChanged
       },
       rightButtonTitle: 'Save',
       onRightButtonPress: () => {

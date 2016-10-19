@@ -15,19 +15,19 @@ export default class SelectDate extends Component {
     this.state = {
       date: this.props.date
     };
-    this.onDateChange = this.onDateChange.bind(this);
+    this.onDateChanged = this.onDateChanged.bind(this);
   }
 
-  onDateChange(date) {
+  onDateChanged(date) {
     this.setState({ date });
-    this.props.onDateChange(date);
+    this.props.onDateChanged(date);
   }
 
   render() {
     return (
       <View style={styles.container}>
         <DatePickerIOS date={this.state.date}
-          onDateChange={this.onDateChange}
+          onDateChange={this.onDateChanged}
           maximumDate={new Date()}
           mode="date" />
       </View>
@@ -37,7 +37,7 @@ export default class SelectDate extends Component {
 
 SelectDate.propTypes = {
   date: PropTypes.object.isRequired,
-  onDateChange: PropTypes.func.isRequired
+  onDateChanged: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

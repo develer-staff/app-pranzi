@@ -6,6 +6,9 @@ import {
 
 export const USERNAME_STORAGE_KEY = '@Username:key';
 
+export const NOTIFICATION_DAYS_KEY = '@NotificationDays:key';
+export const NOTIFICATION_HOUR_KEY = '@NotificationHour:key';
+
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwDUz7rnEwase-2vvKOANn_zb9g6yr05ajPn3LQ-EFWbi2rB0/exec?';
 const SEARCH_USERNAME_FUNC = 'search';
 const INSERT_LUNCH_FUNC = 'insert';
@@ -74,4 +77,12 @@ export function setStorageItems(values) {
 
 export function setStorageItem(key, value) {
   return AsyncStorage.setItem(key, value);
+}
+
+export function getNotificationDays() {
+  return AsyncStorage.getItem(NOTIFICATION_DAYS_KEY);
+}
+
+export function setNotificationDays(days) {
+  return AsyncStorage.setItem(NOTIFICATION_DAYS_KEY, days);
 }

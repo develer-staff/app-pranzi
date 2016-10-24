@@ -47,10 +47,10 @@ export default class AppPranzi extends Component {
           <ActivityIndicator size='large' />
         </View>);
     }
-    const component = this.state.usernameAvailable ? InsertLunch : InsertUsername;
+
     return (
       <NavigatorIOS style={styles.container}
-        initialRoute={{ component: component, title: 'Lunch' }}
+        initialRoute={this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext()}
         />
     );
   }

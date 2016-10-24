@@ -33,6 +33,13 @@ export default class InsertUsername extends Component {
     this.onVerifyPressed = this.onVerifyPressed.bind(this);
   }
 
+  static getNext() {
+    return {
+      component: InsertUsername,
+      title: 'Insert username'
+    };
+  }
+
   render() {
     const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
     return (
@@ -63,10 +70,9 @@ export default class InsertUsername extends Component {
     verifyName(this.state.searchString.toLocaleLowerCase(), (found) => {
       if (found) {
         setStorageItem(USERNAME_STORAGE_KEY, this.state.searchString)
-          .then(() => this.props.navigator.replace({
-            title: 'Insert lunch',
-            component: InsertLunch
-          }))
+          .then(() => {
+            this.props.navigator.push(InsertLunch.getNext());
+          })
           .catch(error => {
             Alert.alert('Error', 'Unable to save username');
             console.log('ERROR', error);

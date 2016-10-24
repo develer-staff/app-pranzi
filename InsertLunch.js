@@ -6,10 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  AlertIOS
 } from 'react-native';
 
 import SelectDate from './SelectDate.js';
+
+import Settings from './Settings.js';
 
 import { getUserInfo, addLunch } from './utils.js';
 
@@ -18,7 +21,9 @@ const SECOND = 2;
 const DESSERT = 4;
 
 const COURSES = [{ str: 'F', value: FIRST, strToSend: 'P' },
-  { str: 'S', value: SECOND, strToSend: 'S' }, { str: 'D', value: DESSERT, strToSend: 'D' }];
+{ str: 'S', value: SECOND, strToSend: 'S' }, { str: 'D', value: DESSERT, strToSend: 'D' }];
+
+let navigator;
 
 export default class InsertLunch extends Component {
   constructor(props) {
@@ -30,6 +35,7 @@ export default class InsertLunch extends Component {
       selectedUsername: '',
       loading: false
     };
+    navigator = this.props.navigator;
     this.onSelectDatePressed = this.onSelectDatePressed.bind(this);
     this.onDateChanged = this.onDateChanged.bind(this);
     this.onSendPressed = this.onSendPressed.bind(this);
@@ -50,6 +56,21 @@ export default class InsertLunch extends Component {
       .catch(() => {
         this.setState({ selectedUsername: '' });
       });
+  }
+
+  static getNext() {
+    return {
+      component: InsertLunch,
+      title: 'Lunch',
+      rightButtonTitle: 'Settings',
+      onRightButtonPress: () => {
+        navigator.push(Settings.getNext());
+      },
+      // Because https://github.com/facebook/react-native/issues/476 is impossible to use replace in NavigatorIOS,
+      // to switch from InsertUsername to InsertLunch: to avoid this problem InsertUsername push InsertLunch.
+      // I need to set `leftButtonTitle` to space to prevent user to go back to InsertUsername from InsertLunch.
+      leftButtonTitle: ' '
+    };
   }
 
   onSendPressed() {

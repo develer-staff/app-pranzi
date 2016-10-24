@@ -8,10 +8,7 @@
   },
   "dependencies": {
     "react": "15.3.2",
-    "react-native": "0.35.0"
-  },
-  "jest": {
-    "preset": "jest-react-native"
+    "react-native": "git@github.com:facebook/react-native.git#9a8b5fcf6186e966185bb4b91ec2e0e758621648"
   },
   "devDependencies": {
     "babel-jest": "16.0.0",
@@ -21,8 +18,10 @@
     "eslint-plugin-promise": "^3.0.0",
     "eslint-plugin-react-native": "^2.0.0",
     "eslint-plugin-standard": "^2.0.1",
+    "flow-bin": "^0.33.0",
     "jest": "16.0.1",
     "jest-react-native": "16.0.0",
-    "react-test-renderer": "15.3.2"
+    "react-test-renderer": "15.3.2",
+    "typescript": "^2.0.3"
   }
 }

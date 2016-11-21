@@ -10,7 +10,7 @@ import {
 
 import InsertUsername from './InsertUsername.js';
 
-import InsertLunch from './InsertLunch.js';
+import InsertLunch from './InsertLunch';
 
 import { getStorageItem, USERNAME_STORAGE_KEY } from './utils.js';
 

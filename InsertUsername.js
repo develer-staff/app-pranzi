@@ -18,7 +18,7 @@ import {
   USERNAME_STORAGE_KEY
 } from './utils.js';
 
-import InsertLunch from './InsertLunch.js';
+import InsertLunch from './InsertLunch';
 
 export default class InsertUsername extends Component {
 

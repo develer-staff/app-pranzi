@@ -8,46 +8,93 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
+  Navigator,
+  ActivityIndicator,
   Text,
-  View
+  View,
+  BackAndroid
 } from 'react-native';
 
+import InsertUsername from './InsertUsername.js';
+
+import InsertLunch from './InsertLunch.js';
+
+import { getStorageItem, USERNAME_STORAGE_KEY } from './utils.js';
+
 export default class AppPranzi extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.navigator = null;
+    this.state = {
+      retrievingUsername: true,
+      usernameAvailable: false
+    };
+  }
+
+  componentWillMount(){
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
+        this.navigator.pop();
+        return true;
+      }
+    });
+    getStorageItem(USERNAME_STORAGE_KEY)
+      .then((username) => {
+        this.setState({
+          retrievingUsername: false,
+          usernameAvailable: username !== null
+        });
+      })
+      .catch(() => {
+        this.setState({
+          retrievingUsername: false,
+          usernameAvailable: false
+        });
+      });
+  }
+
+  _renderScene(route, navigator) {
+    return (<route.component navigator={navigator} {...route.passProps} />);
+  }
+
+
+  render(){
+    if (this.state.retrievingUsername) {
+      return (
+        <View style={styles.loadViewStyle}>
+          <Text style={styles.description}>Loading</Text>
+          <ActivityIndicator size='large' />
+        </View>);
+    }
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Navigator
+        initialRoute={this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext()}
+        renderScene={this._renderScene.bind(this)}
+        ref={(nav) => {this.navigator = nav}}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
+  description: {
+    marginBottom: 20,
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#656565'
+  },
   container: {
     flex: 1,
+    marginTop: 22
+  },
+  loadViewStyle: {
+    flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+    alignItems: 'center'
   }
 });
 
 AppRegistry.registerComponent('AppPranzi', () => AppPranzi);
+

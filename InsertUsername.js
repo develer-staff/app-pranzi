@@ -107,13 +107,16 @@ const styles = StyleSheet.create({
     height: 36,
     padding: 4,
     marginRight: 5,
-    flex: 4,
+    flex: 1,
     fontSize: 18,
     borderWidth: 1,
     borderColor: '#48BBEC',
     borderRadius: 8,
     color: '#48BBEC',
-    marginBottom: 20
+    marginBottom: 20,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    textAlign: 'center'
   },
   button: {
     height: 36,

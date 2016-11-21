@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "react": "15.3.2",
-    "react-native": "git@github.com:facebook/react-native.git#9a8b5fcf6186e966185bb4b91ec2e0e758621648"
+    "react-native": "0.37"
   },
   "devDependencies": {
     "babel-jest": "16.0.0",

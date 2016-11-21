@@ -10,7 +10,7 @@ import {
   AlertIOS
 } from 'react-native';
 
-import SelectDate from './SelectDate.js';
+import SelectDate from './SelectDate';
 
 import Settings from './Settings.js';
 

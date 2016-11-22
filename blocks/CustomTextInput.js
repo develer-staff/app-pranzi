@@ -9,14 +9,13 @@ import {
 
 import { uiblocks } from '../globstyle';
 
+export default class CustomTextInput extends Component {
 
-export default class CustomTextInput extends Component{
-
-  render(){
+  render() {
     const { style, value, onChangeText } = this.props;
-    var styles = [defaultStyle.input, style];
+    const styles = [defaultStyle.input, style];
 
-    return(
+    return (
       <TextInput style={styles}
         value={value}
         onChangeText={onChangeText}
@@ -26,11 +25,11 @@ export default class CustomTextInput extends Component{
   }
 }
 
-
 CustomTextInput.propTypes = {
   value: PropTypes.string.isRequired,
-  onChangeText: PropTypes.func.isRequired
-}
+  onChangeText: PropTypes.func.isRequired,
+  style: PropTypes.object
+};
 
 const { textInput } = uiblocks;
 

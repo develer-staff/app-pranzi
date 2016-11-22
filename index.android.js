@@ -31,7 +31,7 @@ export default class AppPranzi extends Component {
     };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     BackAndroid.addEventListener('hardwareBackPress', () => {
       if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
         this.navigator.pop();
@@ -57,8 +57,7 @@ export default class AppPranzi extends Component {
     return (<route.component navigator={navigator} {...route.passProps} />);
   }
 
-
-  render(){
+  render() {
     if (this.state.retrievingUsername) {
       return (
         <View style={styles.loadViewStyle}>
@@ -69,9 +68,9 @@ export default class AppPranzi extends Component {
 
     return (
       <Navigator
-        initialRoute={this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext()}
-        renderScene={this._renderScene.bind(this)}
-        ref={(nav) => {this.navigator = nav}}
+        initialRoute={ this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext() }
+        renderScene={ this._renderScene.bind(this) }
+        ref={ (nav) => { this.navigator = nav } }
       />
     );
   }

@@ -1,7 +1,7 @@
 
 const palette = {
   lightBlue: '#48BBEC',
-}
+};
 
 export const uiblocks = {
   textInput: {
@@ -15,4 +15,4 @@ export const uiblocks = {
     borderColor: palette.lightBlue,
     color: palette.lightBlue,
   },
-}
+};

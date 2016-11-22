@@ -6,8 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  ActivityIndicator,
-  AlertIOS
+  ActivityIndicator
 } from 'react-native';
 
 import SelectDate from './SelectDate.js';

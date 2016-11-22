@@ -5,7 +5,6 @@ import React, { Component, PropTypes } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,

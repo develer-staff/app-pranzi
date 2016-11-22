@@ -16,7 +16,8 @@ module.exports = {
         "react-native/no-unused-styles": "error",
         "react-native/split-platform-components": "error",
         "prefer-const": "error",
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }]
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }],
+        "comma-dangle": "off"
     },
     "env": {
         "node": true

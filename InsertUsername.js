@@ -5,7 +5,6 @@ import React, { Component, PropTypes } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
   Alert
@@ -18,7 +17,7 @@ import {
 } from './utils.js';
 
 import InsertLunch from './InsertLunch';
-import { CustomTextInput } from './blocks';
+import { CustomTextInput, CanDisableButton } from './blocks';
 
 export default class InsertUsername extends Component {
 
@@ -49,12 +48,12 @@ export default class InsertUsername extends Component {
           value={this.state.searchString}
           onChangeText={(searchString) => this.setState({ searchString })}
         />
-        <TouchableOpacity style={this.state.verifying || this.state.searchString === '' ? styles.disabledButton : styles.button}
-          activeOpacity={this.state.verifying ? 1 : 0.2}
-          disabled={this.state.verifying || this.state.searchString === ''}
-          onPress={this.onVerifyPressed}>
-          <Text style={styles.buttonText}>Verify</Text>
-        </TouchableOpacity>
+        <CanDisableButton
+          condition={ this.state.verifying || this.state.searchString === '' }
+          altCondition={ this.state.verifying }
+          onPress={ this.onVerifyPressed }
+          text="Verify"
+        />
         {spinner}
       </View>
     );

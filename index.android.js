@@ -29,6 +29,7 @@ export default class AppPranzi extends Component {
       retrievingUsername: true,
       usernameAvailable: false
     };
+    this._renderScene.bind(this);
   }
 
   componentWillMount() {
@@ -66,10 +67,12 @@ export default class AppPranzi extends Component {
         </View>);
     }
 
+    const initial = this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext();
+
     return (
       <Navigator
-        initialRoute={ this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext() }
-        renderScene={ this._renderScene.bind(this) }
+        initialRoute={ initial }
+        renderScene={ this._renderScene }
         ref={ (nav) => { this.navigator = nav } }
       />
     );

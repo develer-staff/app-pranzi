@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  DatePickerAndroid 
+  DatePickerAndroid,
 } from 'react-native';
 
 

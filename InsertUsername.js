@@ -19,6 +19,7 @@ import {
 } from './utils.js';
 
 import InsertLunch from './InsertLunch';
+import { CustomTextInput } from './blocks';
 
 export default class InsertUsername extends Component {
 

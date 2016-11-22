@@ -46,10 +46,10 @@ export default class InsertUsername extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.description}>Username</Text>
-        <TextInput style={styles.usernameInput}
+        <CustomTextInput
           value={this.state.searchString}
-          underlayColor='#99d9f4'
-          onChangeText={(searchString) => this.setState({ searchString })} />
+          onChangeText={(searchString) => this.setState({ searchString })}
+        />
         <TouchableOpacity style={this.state.verifying || this.state.searchString === '' ? styles.disabledButton : styles.button}
           activeOpacity={this.state.verifying ? 1 : 0.2}
           disabled={this.state.verifying || this.state.searchString === ''}
@@ -103,21 +103,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-around'
-  },
-  usernameInput: {
-    height: 36,
-    padding: 4,
-    marginRight: 5,
-    flex: 1,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#48BBEC',
-    borderRadius: 8,
-    color: '#48BBEC',
-    marginBottom: 20,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    textAlign: 'center'
   },
   button: {
     height: 36,

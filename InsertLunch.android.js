@@ -14,6 +14,8 @@ import Settings from './Settings.js';
 
 import { getUserInfo, addLunch } from './utils.js';
 
+import { ToggleButton } from './blocks';
+
 const FIRST = 1;
 const SECOND = 2;
 const DESSERT = 4;
@@ -102,13 +104,12 @@ export default class InsertLunch extends Component {
     return COURSES.map((course, i) => {
       const courseSelected = this.state.selectedCourses & course.value;
       return (
-        <TouchableOpacity
-          style={[styles.button, courseSelected && styles.buttonPressed]}
+        <ToggleButton
           onPress={() => this.toggleCourseSelection(course.value)}
           key={i}
-          >
-          <Text style={[styles.buttonText, courseSelected && styles.buttonPressedText]}>{course.str}</Text>
-        </TouchableOpacity>
+          text={course.str}
+          isPressed={courseSelected}
+        />
       );
     });
   }
@@ -183,12 +184,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     alignSelf: 'center'
-  },
-  buttonPressed: {
-    backgroundColor: '#225C75',
-    borderColor: '#225C75'
-  },
-  buttonPressedText: {
-    color: 'white'
   }
 });

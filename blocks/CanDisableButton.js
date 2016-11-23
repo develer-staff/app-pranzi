@@ -12,13 +12,13 @@ import { uiblocks } from '../globstyle';
 
 export default class CanDisableButton extends Component {
   render() {
-    const { condition, altCondition, onPress, text } = this.props;
-    const style = condition ? [defaultStyle.enabled, defaultStyle.disabled] : defaultStyle.enabled;
+    const { disabled, opacityCondition, onPress, text } = this.props;
+    const style = [defaultStyle.enabled, disabled ? defaultStyle.disabled : null];
 
     return (
       <TouchableOpacity style={ style }
-        activeOpacity={ altCondition ? 1 : 0.2 }
-        disabled={ condition }
+        activeOpacity={ opacityCondition ? 1 : 0.2 }
+        disabled={ disabled }
         onPress={ onPress }>
         <Text style={defaultStyle.text}>{ text }</Text>
       </TouchableOpacity>
@@ -27,10 +27,10 @@ export default class CanDisableButton extends Component {
 }
 
 CanDisableButton.propTypes = {
-  condition: PropTypes.bool.isRequired,
-  altCondition: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  opacityCondition: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
 };
 
 const { enabled, disabled, text } = uiblocks.button;

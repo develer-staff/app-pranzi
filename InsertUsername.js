@@ -49,8 +49,8 @@ export default class InsertUsername extends Component {
           onChangeText={(searchString) => this.setState({ searchString })}
         />
         <CanDisableButton
-          condition={ this.state.verifying || this.state.searchString === '' }
-          altCondition={ this.state.verifying }
+          disabled={ this.state.verifying || this.state.searchString === '' }
+          opacityCondition={ this.state.verifying }
           onPress={ this.onVerifyPressed }
           text="Verify"
         />

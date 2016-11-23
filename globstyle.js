@@ -5,9 +5,14 @@ const palette = {
   white: 'white',
 };
 
+const fonts = {
+  normalFont: {
+    fontSize: 18,
+  }
+};
+
 export const uiblocks = {
   textInput: {
-    fontSize: 18,
     height: 36,
     padding: 4,
     marginRight: 5,
@@ -16,6 +21,7 @@ export const uiblocks = {
     borderRadius: 8,
     borderColor: palette.lightBlue,
     color: palette.lightBlue,
+    ...fonts.normalFont
   },
   button: {
     enabled: {
@@ -31,8 +37,8 @@ export const uiblocks = {
       backgroundColor: palette.grey,
     },
     text: {
-      fontSize: 18,
       color: palette.white,
+      ...fonts.normalFont 
     },
   }
 };

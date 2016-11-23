@@ -38,7 +38,7 @@ export const uiblocks = {
     },
     text: {
       color: palette.white,
-      ...fonts.normalFont 
+      ...fonts.normalFont
     },
   }
 };

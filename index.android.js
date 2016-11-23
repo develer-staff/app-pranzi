@@ -73,7 +73,7 @@ export default class AppPranzi extends Component {
       <Navigator
         initialRoute={ initial }
         renderScene={ this._renderScene }
-        ref={ (nav) => { this.navigator = nav } }
+        ref={(nav) => { this.navigator = nav }}
       />
     );
   }

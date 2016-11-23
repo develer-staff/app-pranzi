@@ -10,7 +10,6 @@ import {
   DatePickerAndroid,
 } from 'react-native';
 
-
 import Settings from './Settings.js';
 
 import { getUserInfo, addLunch } from './utils.js';

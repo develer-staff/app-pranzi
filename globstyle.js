@@ -1,6 +1,7 @@
 
 const palette = {
   lightBlue: '#48BBEC',
+  darkBlue: '#225C75',
   grey: '#787F82',
   white: 'white',
 };
@@ -35,6 +36,10 @@ export const uiblocks = {
     disabled: {
       borderColor: palette.grey,
       backgroundColor: palette.grey,
+    },
+    pressed: {
+      borderColor: palette.darkBlue,
+      backgroundColor: palette.darkBlue,
     },
     text: {
       color: palette.white,

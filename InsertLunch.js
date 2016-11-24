@@ -9,11 +9,11 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import SelectDate from './SelectDate.js';
-
 import Settings from './Settings.js';
 
 import { getUserInfo, addLunch } from './utils.js';
+
+import { ToggleButton, CustomDatePicker } from './blocks';
 
 const FIRST = 1;
 const SECOND = 2;
@@ -82,23 +82,9 @@ export default class InsertLunch extends Component {
     });
   }
 
-  onSelectDatePressed() {
-    this.props.navigator.push({
-      title: 'Select date',
-      component: SelectDate,
-      passProps: {
-        date: this.state.date,
-        onDateChanged: this.onDateChanged
-      },
-      rightButtonTitle: 'Save',
-      onRightButtonPress: () => {
-        this.setState({ date: this.state.tempDate });
-        this.props.navigator.pop();
-      },
-      onLeftButtonPress: () => {
-        this.setState({ tempDate: this.state.date });
-      }
-    });
+  onSelectDatePressed(date) {
+    this.setState({ date: date });
+    // console.log(this.state.date);
   }
 
   toggleCourseSelection(course) {
@@ -109,20 +95,17 @@ export default class InsertLunch extends Component {
     return COURSES.map((course, i) => {
       const courseSelected = this.state.selectedCourses & course.value;
       return (
-        <TouchableOpacity
-          style={[styles.button, courseSelected && styles.buttonPressed]}
+        <ToggleButton
           onPress={() => this.toggleCourseSelection(course.value)}
           key={i}
-          >
-          <Text style={[styles.buttonText, courseSelected && styles.buttonPressedText]}>{course.str}</Text>
-        </TouchableOpacity>
+          text={course.str}
+          isPressed={courseSelected}
+        />
       );
     });
   }
 
   render() {
-    const dateString = this.state.date.toDateString() === new Date().toDateString() ? 'Today' : this.state.date.toLocaleDateString('it-IT');
-
     const courseButtons = this.createCourseButtons();
 
     const selectedUsername = this.state.selectedUsername !== '' ? (<Text style={styles.description}>Selected username: {this.state.selectedUsername}</Text>) : null;
@@ -132,9 +115,12 @@ export default class InsertLunch extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.description}>Select the day</Text>
-        <TouchableOpacity style={styles.button} onPress={this.onSelectDatePressed}>
-          <Text style={styles.buttonText}>{dateString}</Text>
-        </TouchableOpacity>
+        <CustomDatePicker
+          navigator={this.props.navigator}
+          onSelected={this.onSelectDatePressed}
+          date={this.state.date}
+          maxDate={new Date()}
+        />
         <Text style={styles.description}>What did you eat?</Text>
         <View style={{ flexDirection: 'row' }}>
           {courseButtons}
@@ -190,12 +176,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     alignSelf: 'center'
-  },
-  buttonPressed: {
-    backgroundColor: '#225C75',
-    borderColor: '#225C75'
-  },
-  buttonPressedText: {
-    color: 'white'
   }
 });

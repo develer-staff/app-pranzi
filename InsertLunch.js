@@ -7,13 +7,15 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Platform,
+  Image,
 } from 'react-native';
 
 import Settings from './Settings.js';
 
 import { getUserInfo, addLunch } from './utils.js';
 
-import { ToggleButton, CustomDatePicker } from './blocks';
+import { ToggleButton, CustomDatePicker, CustomNavBar } from './blocks';
 
 const FIRST = 1;
 const SECOND = 2;
@@ -38,6 +40,7 @@ export default class InsertLunch extends Component {
     this.onSelectDatePressed = this.onSelectDatePressed.bind(this);
     this.onDateChanged = this.onDateChanged.bind(this);
     this.onSendPressed = this.onSendPressed.bind(this);
+    this.goToSettings = this.goToSettings.bind(this);
   }
 
   onDateChanged(date) {
@@ -105,6 +108,10 @@ export default class InsertLunch extends Component {
     });
   }
 
+  goToSettings() {
+    navigator.push(Settings.getNext());
+  }
+
   render() {
     const courseButtons = this.createCourseButtons();
 
@@ -112,29 +119,38 @@ export default class InsertLunch extends Component {
 
     const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
 
+    const settingsBtn = (<Image source={require('./imgs/wheel.png')} style={styles.settingsBtn}/>);
+
+    const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Lunch'} action={this.goToSettings} actionIcon={ settingsBtn }/>) : (<View />);
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.description}>Select the day</Text>
-        <CustomDatePicker
-          navigator={this.props.navigator}
-          onSelected={this.onSelectDatePressed}
-          date={this.state.date}
-          maxDate={new Date()}
-        />
-        <Text style={styles.description}>What did you eat?</Text>
-        <View style={{ flexDirection: 'row' }}>
-          {courseButtons}
+      <View>
+        <View>
+          {nav}
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Nothing</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.onSendPressed}>
-            <Text style={styles.buttonText}>Send</Text>
-          </TouchableOpacity>
+        <View style={styles.container}>
+          <Text style={styles.description}>Select the day</Text>
+          <CustomDatePicker
+            navigator={this.props.navigator}
+            onSelected={this.onSelectDatePressed}
+            date={this.state.date}
+            maxDate={new Date()}
+          />
+          <Text style={styles.description}>What did you eat?</Text>
+          <View style={{ flexDirection: 'row' }}>
+            {courseButtons}
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Nothing</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={this.onSendPressed}>
+              <Text style={styles.buttonText}>Send</Text>
+            </TouchableOpacity>
+          </View>
+          {selectedUsername}
+          {spinner}
         </View>
-        {selectedUsername}
-        {spinner}
       </View>
     );
   }
@@ -146,6 +162,10 @@ InsertLunch.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  settingsBtn: {
+    height: 20,
+    width: 20
+  },
   description: {
     marginBottom: 20,
     marginTop: 20,

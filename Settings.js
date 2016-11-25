@@ -7,12 +7,15 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
 } from 'react-native';
 
 import { getUserInfo, getNotificationDays } from './utils.js';
 
 import SelectNotificationDays from './SelectNotificationDays.js';
+
+import { CustomTextInput, CustomNavBar } from './blocks';
 
 let navigator;
 
@@ -28,6 +31,7 @@ export default class Settings extends Component {
 
     this.onSelectNotificationDaysPressed = this.onSelectNotificationDaysPressed.bind(this);
     this.notificationDaysChanged = this.notificationDaysChanged.bind(this);
+    this.goBack = this.goBack.bind(this);
 
     getNotificationDays()
       .then((days) => this.setState({notificationDays: parseInt(days)}))
@@ -64,18 +68,28 @@ export default class Settings extends Component {
     };
   }
 
+  goBack() {
+    navigator.pop();
+  }
+
   render() {
+    const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Settings'} action={this.goBack} actionText={'save'}/>) : (<View />);
+
     return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={this.onSelectNotificationDaysPressed}>
-          <Text style={styles.buttonText}>Notification days</Text>
-        </TouchableOpacity>
-        <Text>Username</Text>
-        <TextInput
-          style={styles.usernameInput}
-          underlayColor='#99d9f4'
-          value={this.state.username}
-          onChangeText={(username) => this.setState({ username })} />
+      <View>
+        <View>
+          {nav}
+        </View>
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.button} onPress={this.onSelectNotificationDaysPressed}>
+            <Text style={styles.buttonText}>Notification days</Text>
+          </TouchableOpacity>
+          <Text>Username</Text>
+          <CustomTextInput
+            value={this.state.username}
+            onChangeText={(username) => this.setState({ username })}
+          />
+        </View>
       </View>
     );
   }

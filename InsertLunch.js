@@ -13,7 +13,7 @@ import {
 
 import Settings from './Settings.js';
 
-import { getUserInfo, addLunch } from './utils.js';
+import { getUserInfo, addLunch, setUserInfo } from './utils.js';
 
 import { ToggleButton, CustomDatePicker, CustomNavBar } from './blocks';
 
@@ -108,8 +108,19 @@ export default class InsertLunch extends Component {
     });
   }
 
+  usernameModified(newUsername, cls) {
+    setUserInfo(newUsername)
+      .then(() => {
+        cls.setState({selectedUsername: newUsername});
+      })
+      .catch(error => {
+        Alert.alert('Error', 'Unable to save username');
+        console.log('ERROR', error);
+      });
+  }
+
   goToSettings() {
-    navigator.push(Settings.getNext());
+    navigator.push(Settings.getNext(this.usernameModified, this, this.state.selectedUsername));
   }
 
   render() {

@@ -9,9 +9,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 
-import { getUserInfo, getNotificationDays } from './utils.js';
+import { getUserInfo, getNotificationDays, verifyName } from './utils.js';
 
 import SelectNotificationDays from './SelectNotificationDays.js';
 
@@ -25,7 +27,8 @@ export default class Settings extends Component {
     super(props);
     this.state = {
       username: '',
-      notificationDays: 0
+      notificationDays: 0,
+      verifying: false
     };
     navigator = this.props.navigator;
 
@@ -39,24 +42,16 @@ export default class Settings extends Component {
   }
 
   componentWillMount() {
-    getUserInfo()
-      .then((values) => {
-        console.log('values', values);
-        this.setState({
-          username: values
-        });
-      })
-      .catch((error) => {
-        console.log('ERROR', error);
-        this.setState({ username: '' });
-      });
+    this.setState({
+      username: this.props.username
+    });
   }
 
   notificationDaysChanged(notificationDays) {
     this.setState({notificationDays});
   }
 
-  static getNext() {
+  static getNext(callback, cls, username) {
     return {
       component: Settings,
       title: 'Settings',
@@ -64,15 +59,36 @@ export default class Settings extends Component {
       onRightButtonPress: () => {
         // TODO: save the state
         navigator.pop();
-      }
+      },
+      passProps: {
+        callback: callback,
+        username: username,
+        cls: cls,
+      },
     };
   }
 
   goBack() {
-    navigator.pop();
+    if (this.state.username === '') {
+      return;
+    }
+
+    this.setState({ verifying: true });
+
+    verifyName(this.state.username.toLocaleLowerCase(), (found) => {
+      if (found) {
+        navigator.pop();
+        this.props.callback(this.state.username, this.props.cls);
+      } else {
+        Alert.alert('Name not found', 'Unable to find name ' + this.state.username);
+      }
+      this.setState({ verifying: false });
+    });
   }
 
   render() {
+    const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
+    
     const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Settings'} action={this.goBack} actionText={'save'}/>) : (<View />);
 
     return (
@@ -90,6 +106,7 @@ export default class Settings extends Component {
             onChangeText={(username) => this.setState({ username })}
           />
         </View>
+        {spinner}
       </View>
     );
   }

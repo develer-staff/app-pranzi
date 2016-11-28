@@ -93,9 +93,7 @@ export default class Settings extends Component {
 
     return (
       <View>
-        <View>
-          {nav}
-        </View>
+        {nav}
         <View style={styles.container}>
           <TouchableOpacity style={styles.button} onPress={this.onSelectNotificationDaysPressed}>
             <Text style={styles.buttonText}>Notification days</Text>

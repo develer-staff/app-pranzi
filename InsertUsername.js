@@ -40,19 +40,23 @@ export default class InsertUsername extends Component {
   }
 
   render() {
-    const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
+    const { verifyng, searchString } = this.state;
+    const spinner = verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
+
+    const disabled = verifying || searchString === '';
+
     return (
       <View style={styles.container}>
         <Text style={styles.description}>Username</Text>
         <CustomTextInput
-          value={this.state.searchString}
+          value={ searchString }
           onChangeText={(searchString) => this.setState({ searchString })}
         />
         <CanDisableButton
-          disabled={ this.state.verifying || this.state.searchString === '' }
-          opacityCondition={ this.state.verifying }
+          disabled={ disabled }
+          opacityCondition={ verifying }
           onPress={ this.onVerifyPressed }
-          text="Verify"
+          text={"Verify"}
         />
         {spinner}
       </View>

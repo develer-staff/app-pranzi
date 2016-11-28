@@ -126,7 +126,11 @@ export default class InsertLunch extends Component {
   render() {
     const courseButtons = this.createCourseButtons();
 
-    const selectedUsername = this.state.selectedUsername !== '' ? (<Text style={styles.description}>Selected username: {this.state.selectedUsername}</Text>) : null;
+    let selectedUsername = null;
+
+    if (this.state.selectedUsername !== '') {
+      selectedUsername = (<Text style={styles.description}>Selected username: {this.state.selectedUsername}</Text>);
+    }
 
     const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
 

@@ -5,19 +5,20 @@ import {
 import NavBar, { NavGroup, NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 
 export default class CustomNavBar extends Component {
-  render() {
-    // const { text, action, actiontext, actionIcon } = this.props;
-
-    let button = (<View/>);
+  renderButton() {
     if (this.props.actionText) {
-      button = (
+      return (
         <NavButtonText>
           { this.props.actionText }
         </NavButtonText>
       );
     } else if (this.props.actionIcon) {
-      button = this.props.actionIcon;
+      return this.props.actionIcon;
     }
+  }
+
+  render() {
+    const button = this.renderButton();
 
     return (
       <NavBar>

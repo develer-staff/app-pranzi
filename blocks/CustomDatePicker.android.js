@@ -16,7 +16,7 @@ export default class CustomDatePicker extends Component {
     this.onSelectDatePressed = this.onSelectDatePressed.bind(this);
   }
 
-  async onSelectDatePressed() {
+  onSelectDatePressed() {
     try {
       const { date, minDate, maxDate } = this.props;
       const opts = {
@@ -31,10 +31,16 @@ export default class CustomDatePicker extends Component {
         opts.maxDate = maxDate;
       }
 
-      const {action, year, month, day} = await DatePickerAndroid.open(opts);
-      if (action !== DatePickerAndroid.dismissedAction) {
-        this.props.onSelected(new Date(year, month, day));
-      }
+      DatePickerAndroid.open(opts)
+        .then((result) => {
+          const {action, year, month, day} = result;
+
+          if (action !== DatePickerAndroid.dismissedAction) {
+            this.props.onSelected(new Date(year, month, day));
+          }
+        }, (error) => {
+          console.error('Error on datePicker ', error);
+        });
     } catch ({code, message}) {
       console.warn('Cannot open date picker', message);
     }

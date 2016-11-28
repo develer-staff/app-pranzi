@@ -46,7 +46,6 @@ export default class CustomDatePicker extends Component {
 
   render() {
     const { date } = this.props;
-    console.log(date);
 
     const day = this.formatDateParts(date.getDate());
     const month = this.formatDateParts((date.getMonth() + 1));

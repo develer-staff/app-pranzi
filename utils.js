@@ -53,6 +53,10 @@ export function getUserInfo() {
   return getStorageItem(USERNAME_STORAGE_KEY);
 }
 
+export function setUserInfo(value) {
+  return setStorageItem(USERNAME_STORAGE_KEY, value);
+}
+
 export function checkSavedUsername(func) {
   getStorageItem(USERNAME_STORAGE_KEY)
     .then(value => verifyName(value, func))

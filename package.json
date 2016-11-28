@@ -9,7 +9,8 @@
   "dependencies": {
     "react": "15.3.2",
     "react-native": "0.37",
-    "react-native-nav": "^1.1.4"
+    "react-native-nav": "^1.1.4",
+    "react-native-push-notification": "^2.2.1"
   },
   "devDependencies": {
     "babel-jest": "16.0.0",

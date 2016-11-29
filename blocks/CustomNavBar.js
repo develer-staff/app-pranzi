@@ -6,14 +6,16 @@ import NavBar, { NavGroup, NavButton, NavButtonText, NavTitle } from 'react-nati
 
 export default class CustomNavBar extends Component {
   renderButton() {
-    if (this.props.actionText) {
+    const { actionText, actionIcon } = this.props;
+
+    if (actionText) {
       return (
         <NavButtonText>
-          { this.props.actionText }
+          { actionText }
         </NavButtonText>
       );
-    } else if (this.props.actionIcon) {
-      return this.props.actionIcon;
+    } else if (actionIcon) {
+      return (<Image source={actionIcon} style={styles.settingsBtn}/>);
     }
   }
 

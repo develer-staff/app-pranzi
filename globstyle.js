@@ -47,3 +47,9 @@ export const uiblocks = {
     },
   }
 };
+
+export const images = {
+  settings: {
+    icon: require('./imgs/wheel.png'),
+  }
+};

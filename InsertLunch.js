@@ -134,15 +134,11 @@ export default class InsertLunch extends Component {
 
     const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
 
-    const settingsBtn = (<Image source={require('./imgs/wheel.png')} style={styles.settingsBtn}/>);
-
-    const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Lunch'} action={this.goToSettings} actionIcon={ settingsBtn }/>) : (<View />);
+    const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Lunch'} action={this.goToSettings} actionIcon={images.settings.icon}/>) : (<View />);
 
     return (
       <View>
-        <View>
-          {nav}
-        </View>
+        {nav}
         <View style={styles.container}>
           <Text style={styles.description}>Select the day</Text>
           <CustomDatePicker

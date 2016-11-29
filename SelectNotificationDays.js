@@ -9,6 +9,8 @@ import {
   StyleSheet
 } from 'react-native';
 
+import { uiblocks, pages } from './globstyle';
+
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
   'Friday', 'Saturday'];
 
@@ -68,13 +70,15 @@ SelectNotificationDays.propTypes = {
   notificationDays: PropTypes.number.isRequired
 };
 
+const { selectNotificationDays } = pages;
+const { enabled, checkMark, text } = uiblocks.button;
+
 const styles = StyleSheet.create({
   container: {
-    padding: 30,
-    marginTop: 60,
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    ...selectNotificationDays
   },
   dayRow: {
     flexDirection: 'row',
@@ -82,29 +86,20 @@ const styles = StyleSheet.create({
     flex: 1
   },
   checkMark: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 18,
     alignSelf: 'center',
-    marginRight: 10
+    ...checkMark
   },
   button: {
-    height: 36,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    margin: 10
+    margin: 10,
+    ...enabled
   },
   buttonText: {
-    fontSize: 18,
-    color: 'white',
     alignSelf: 'center',
-    marginLeft: 10
+    marginLeft: 10,
+    ...text
   }
 });

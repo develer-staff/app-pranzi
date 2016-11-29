@@ -15,6 +15,8 @@ import Settings from './Settings.js';
 
 import { getUserInfo, addLunch, setUserInfo } from './utils.js';
 
+import { uiblocks, pages, images } from './globstyle';
+
 import { ToggleButton, CustomDatePicker, CustomNavBar } from './blocks';
 
 const FIRST = 1;
@@ -148,10 +150,10 @@ export default class InsertLunch extends Component {
             maxDate={new Date()}
           />
           <Text style={styles.description}>What did you eat?</Text>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={styles.courseButtonsContainer}>
             {courseButtons}
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <View style={styles.bottomButtonsContainer}>
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}>Nothing</Text>
             </TouchableOpacity>
@@ -172,40 +174,36 @@ InsertLunch.propTypes = {
   navigator: PropTypes.object.isRequired
 };
 
+const { text, button } = uiblocks;
+const { insertLunch } = pages;
+
 const styles = StyleSheet.create({
-  settingsBtn: {
-    height: 20,
-    width: 20
-  },
   description: {
-    marginBottom: 20,
-    marginTop: 20,
-    fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    ...text
   },
   container: {
-    padding: 30,
-    marginTop: 60,
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    ...insertLunch
   },
   button: {
-    height: 36,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    margin: 10
+    margin: 10,
+    ...button.enabled
   },
   buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    ...button.text
+  },
+  courseButtonsContainer: {
+    flexDirection: 'row',
+  },
+  bottomButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   }
 });

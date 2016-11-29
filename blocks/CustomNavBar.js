@@ -1,10 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import {
   View,
+  StyleSheet,
+  Image,
 } from 'react-native';
 import NavBar, { NavGroup, NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 
+import { uiblocks } from '../globstyle';
+
 export default class CustomNavBar extends Component {
+
   renderButton() {
     const { actionText, actionIcon } = this.props;
 
@@ -22,13 +27,15 @@ export default class CustomNavBar extends Component {
   render() {
     const button = this.renderButton();
 
+    const { text, action } = this.props;
+
     return (
       <NavBar>
         <NavTitle>
-          { this.props.text }
+          { text }
         </NavTitle>
         <NavGroup>
-          <NavButton onPress={ this.props.action }>
+          <NavButton onPress={ action }>
             { button }
           </NavButton>
         </NavGroup>
@@ -41,5 +48,13 @@ CustomNavBar.propTypes = {
   text: PropTypes.string.isRequired,
   action: PropTypes.func,
   actionText: PropTypes.string,
-  actionIcon: PropTypes.element,
+  actionIcon: PropTypes.number,
 };
+
+const { button } = uiblocks.navbar.settings;
+
+const styles = StyleSheet.create({
+  settingsBtn: {
+    ...button
+  },
+});

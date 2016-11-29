@@ -19,6 +19,7 @@ import {
 import InsertLunch from './InsertLunch';
 import { CustomTextInput, CanDisableButton } from './blocks';
 
+import { uiblocks, pages } from './globstyle';
 export default class InsertUsername extends Component {
 
   constructor(props) {
@@ -40,7 +41,7 @@ export default class InsertUsername extends Component {
   }
 
   render() {
-    const { verifyng, searchString } = this.state;
+    const { verifying, searchString } = this.state;
     const spinner = verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
 
     const disabled = verifying || searchString === '';
@@ -92,50 +93,21 @@ InsertUsername.propTypes = {
   navigator: PropTypes.object.isRequired
 };
 
+const { text, activityIndicator } = uiblocks;
+const { insertUsername } = pages;
+
 const styles = StyleSheet.create({
   description: {
-    marginBottom: 20,
-    fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    ...text
   },
   container: {
-    padding: 30,
-    marginTop: 60,
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'space-around'
-  },
-  button: {
-    height: 36,
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  disabledButton: {
-    height: 36,
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#787F82',
-    borderColor: '#787F82',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
+    justifyContent: 'space-around',
+    ...insertUsername
   },
   activityIndicator: {
-    marginTop: 20
+    ...activityIndicator
   }
 });

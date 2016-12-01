@@ -125,6 +125,21 @@ export default class InsertLunch extends Component {
     navigator.push(Settings.getNext(this.usernameModified, this, this.state.selectedUsername));
   }
 
+
+  renderDatePicker() {
+    return (
+      <View>
+        <Text style={styles.description}>Select the day</Text>
+        <CustomDatePicker
+          navigator={this.props.navigator}
+          onSelected={this.onSelectDatePressed}
+          date={this.state.date}
+          maxDate={new Date()}
+        />
+      </View>
+    );
+  }
+
   render() {
     const courseButtons = this.createCourseButtons();
 
@@ -137,18 +152,13 @@ export default class InsertLunch extends Component {
     const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
 
     const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Lunch'} action={this.goToSettings} actionIcon={images.settings.icon}/>) : (<View />);
+    const datePicker = this.renderDatePicker();
 
     return (
       <View>
         {nav}
         <View style={styles.container}>
-          <Text style={styles.description}>Select the day</Text>
-          <CustomDatePicker
-            navigator={this.props.navigator}
-            onSelected={this.onSelectDatePressed}
-            date={this.state.date}
-            maxDate={new Date()}
-          />
+          {datePicker}
           <Text style={styles.description}>What did you eat?</Text>
           <View style={styles.courseButtonsContainer}>
             {courseButtons}

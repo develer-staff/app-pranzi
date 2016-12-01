@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Platform,
   Image,
 } from 'react-native';
 
@@ -17,7 +16,7 @@ import { getUserInfo, addLunch, setUserInfo } from './utils.js';
 
 import { uiblocks, pages, images } from './globstyle';
 
-import { ToggleButton, CustomDatePicker, CustomNavBar } from './blocks';
+import { ToggleButton, CustomDatePicker, Drawer } from './blocks';
 
 const FIRST = 1;
 const SECOND = 2;
@@ -114,6 +113,7 @@ export default class InsertLunch extends Component {
     setUserInfo(newUsername)
       .then(() => {
         cls.setState({selectedUsername: newUsername});
+        Alert.alert('Information', 'Username was saverd correctly');
       })
       .catch(error => {
         Alert.alert('Error', 'Unable to save username');
@@ -151,12 +151,10 @@ export default class InsertLunch extends Component {
 
     const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
 
-    const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Lunch'} action={this.goToSettings} actionIcon={images.settings.icon}/>) : (<View />);
     const datePicker = this.renderDatePicker();
 
-    return (
+    const completeView =  (
       <View>
-        {nav}
         <View style={styles.container}>
           {datePicker}
           <Text style={styles.description}>What did you eat?</Text>
@@ -176,6 +174,8 @@ export default class InsertLunch extends Component {
         </View>
       </View>
     );
+
+    return Drawer.wrapView(completeView, 'Lunch', this.goToSettings);
   }
 
 }

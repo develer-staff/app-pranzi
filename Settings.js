@@ -8,7 +8,6 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Platform,
   ActivityIndicator,
   Alert,
 } from 'react-native';
@@ -17,7 +16,7 @@ import { getUserInfo, getNotificationDays, verifyName } from './utils.js';
 
 import SelectNotificationDays from './SelectNotificationDays.js';
 
-import { CustomTextInput, CustomNavBar } from './blocks';
+import { CustomTextInput, CanDisableButton, Drawer } from './blocks';
 
 let navigator;
 
@@ -31,6 +30,7 @@ export default class Settings extends Component {
       verifying: false
     };
     navigator = this.props.navigator;
+    this.givenUsername = '';
 
     this.onSelectNotificationDaysPressed = this.onSelectNotificationDaysPressed.bind(this);
     this.notificationDaysChanged = this.notificationDaysChanged.bind(this);
@@ -45,6 +45,7 @@ export default class Settings extends Component {
     this.setState({
       username: this.props.username
     });
+    this.givenUsername = this.props.username;
   }
 
   notificationDaysChanged(notificationDays) {
@@ -77,8 +78,8 @@ export default class Settings extends Component {
 
     verifyName(this.state.username.toLocaleLowerCase(), (found) => {
       if (found) {
-        navigator.pop();
         this.props.callback(this.state.username, this.props.cls);
+        this.givenUsername = this.state.username;
       } else {
         Alert.alert('Name not found', 'Unable to find name ' + this.state.username);
       }
@@ -88,12 +89,10 @@ export default class Settings extends Component {
 
   render() {
     const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
-    
-    const nav = Platform.OS === 'android' ? (<CustomNavBar text={'Settings'} action={this.goBack} actionText={'save'}/>) : (<View />);
+    const condition = this.state.username === this.givenUsername;
 
-    return (
+    const view = (
       <View>
-        {nav}
         <View style={styles.container}>
           <TouchableOpacity style={styles.button} onPress={this.onSelectNotificationDaysPressed}>
             <Text style={styles.buttonText}>Notification days</Text>
@@ -103,10 +102,19 @@ export default class Settings extends Component {
             value={this.state.username}
             onChangeText={(username) => this.setState({ username })}
           />
+          <CanDisableButton 
+            disabled={condition}
+            opacityCondition={true}
+            onPress={this.goBack}
+            text={'Save'}
+          />
         </View>
         {spinner}
       </View>
     );
+
+    return Drawer.wrapView(view, 'Settings');
+    
   }
 
   onSelectNotificationDaysPressed() {
@@ -153,7 +161,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    margin: 10
+    marginRight: 5,
+    padding: 4,
   },
   buttonText: {
     fontSize: 18,

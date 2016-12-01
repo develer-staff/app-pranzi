@@ -5,18 +5,19 @@ import React, { Component, PropTypes } from 'react';
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
   Alert,
 } from 'react-native';
 
-import { getUserInfo, getNotificationDays, verifyName } from './utils.js';
+import { getNotificationDays, verifyName } from './utils.js';
 
 import SelectNotificationDays from './SelectNotificationDays.js';
 
 import { CustomTextInput, CanDisableButton, Drawer } from './blocks';
+
+import { uiblocks, pages } from './globstyle';
 
 let navigator;
 
@@ -102,7 +103,7 @@ export default class Settings extends Component {
             value={this.state.username}
             onChangeText={(username) => this.setState({ username })}
           />
-          <CanDisableButton 
+          <CanDisableButton
             disabled={condition}
             opacityCondition={true}
             onPress={this.goBack}
@@ -114,7 +115,6 @@ export default class Settings extends Component {
     );
 
     return Drawer.wrapView(view, 'Settings');
-    
   }
 
   onSelectNotificationDaysPressed() {
@@ -127,46 +127,37 @@ export default class Settings extends Component {
 }
 
 Settings.propTypes = {
-  navigator: PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
+  callback: PropTypes.func.isRequired,
+  cls: PropTypes.object,
 };
+
+const { settings } = pages;
+const { textInput, button } = uiblocks;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 30,
-    marginTop: 60,
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    ...settings
   },
   usernameInput: {
-    height: 36,
-    padding: 4,
-    marginRight: 5,
     flex: 4,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#48BBEC',
-    borderRadius: 8,
-    color: '#48BBEC',
-    marginBottom: 20
+    ...textInput
   },
   button: {
-    height: 36,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
     marginRight: 5,
     padding: 4,
+    ...button.enabled
   },
   buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    ...button.text
   }
 });

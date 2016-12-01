@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -9,8 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-
-import { uiblocks, images } from '../globstyle';
+import { uiblocks, images, pages } from '../globstyle';
 
 export default class Drawer {
 
@@ -23,15 +22,15 @@ export default class Drawer {
     let menu = null;
 
     let menuBtn = (<View style={styles.noBtn} />);
-    if ( openSettings ) {
+    if (openSettings) {
       menu = (
         <View style={styles.menuContainer}>
           <View style={styles.menuHeading}>
-            <Text style={styles.menuHeadingText}>ss</Text>
+            <Text style={styles.menuHeadingText}>App Pranzi</Text>
           </View>
           <TouchableOpacity style={ styles.menuRow }
-            onPress={() => {openSettings(); drawer.closeDrawer() } }>
-            <Image source={images.settings.icon} style={styles.menuIcons}/>
+            onPress={() => { openSettings(); drawer.closeDrawer(); }}>
+            <Image source={ images.settings.icon } style={ styles.menuIcons }/>
             <Text style={styles.menuText}>Settings</Text>
           </TouchableOpacity>
         </View>
@@ -51,7 +50,7 @@ export default class Drawer {
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => menu}
         drawerLockMode={'locked-closed'}
-        ref={(draw) => {drawer = draw}}>
+        ref={(draw) => { drawer = draw; }}>
         <View style={ styles.navbar }>
           { menuBtn }
           <Text style={styles.text}>{ text }</Text>
@@ -62,25 +61,21 @@ export default class Drawer {
 
     return finalView;
   }
-  
 }
 
 const { button } = uiblocks.navbar.settings;
+const { menuHeading, navBar, navBarBtn, navBarNoBtn, navBarText } = pages;
 
 const styles = StyleSheet.create({
-  menuContainer:{
+  menuContainer: {
     flex: 1,
     alignItems: 'center',
   },
   menuRow: {
     flexDirection: 'row',
   },
-  menuHeading:{
-    marginTop: 100,
-    borderBottomWidth: 2,
-    width: 180,
-    paddingBottom: 20,
-    marginBottom: 20,
+  menuHeading: {
+    ...menuHeading
   },
   menuHeadingText: {
     textAlign: 'center',
@@ -93,23 +88,17 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   navbar: {
-    padding: 5,
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: '#787F82',
-    height: 50,
-    backgroundColor: '#f2f2f2',
+    ...navBar
   },
   button: {
-    margin: 8,
+    ...navBarBtn
   },
   noBtn: {
-    margin: 10,
+    ...navBarNoBtn
   },
   text: {
-    margin: 5,
-    fontSize: 20,
-    fontWeight: 'bold',
+    ...navBarText
   },
   settingsBtn: {
     ...button

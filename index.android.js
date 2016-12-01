@@ -12,7 +12,7 @@ import {
   ActivityIndicator,
   Text,
   View,
-  BackAndroid
+  BackAndroid,
 } from 'react-native';
 
 import InsertUsername from './InsertUsername.js';
@@ -47,7 +47,7 @@ export default class AppPranzi extends Component {
         });
       })
       .catch((e) => {
-        console.log('error => ',e);
+        console.log('error => ', e);
         this.setState({
           retrievingUsername: false,
           usernameAvailable: false
@@ -75,7 +75,7 @@ export default class AppPranzi extends Component {
         initialRoute={ initial }
         renderScene={ this._renderScene }
         configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottomAndroid}
-        ref={(nav) => { this.navigator = nav }}
+        ref={(nav) => { this.navigator = nav;}}
       />
     );
   }

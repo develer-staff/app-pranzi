@@ -7,14 +7,13 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Image,
 } from 'react-native';
 
 import Settings from './Settings.js';
 
 import { getUserInfo, addLunch, setUserInfo } from './utils.js';
 
-import { uiblocks, pages, images } from './globstyle';
+import { uiblocks, pages } from './globstyle';
 
 import { ToggleButton, CustomDatePicker, Drawer } from './blocks';
 
@@ -125,7 +124,6 @@ export default class InsertLunch extends Component {
     navigator.push(Settings.getNext(this.usernameModified, this, this.state.selectedUsername));
   }
 
-
   renderDatePicker() {
     return (
       <View>
@@ -153,7 +151,7 @@ export default class InsertLunch extends Component {
 
     const datePicker = this.renderDatePicker();
 
-    const completeView =  (
+    const completeView = (
       <View>
         <View style={styles.container}>
           {datePicker}

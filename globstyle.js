@@ -2,6 +2,7 @@
 const palette = {
   lightBlue: '#48BBEC',
   darkBlue: '#225C75',
+  navBarGrey: '#f2f2f2',
   lightGrey: '#787F82',
   grey: '#656565',
   white: 'white',
@@ -14,6 +15,10 @@ const fonts = {
   boldFont: {
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  bigFont: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 };
 
@@ -32,10 +37,37 @@ export const pages = {
   selectNotificationDays: {
     ...commonPages
   },
-}
+  settings: {
+    ...commonPages
+  },
+  menuHeading: {
+    marginTop: 100,
+    borderBottomWidth: 2,
+    width: 180,
+    paddingBottom: 20,
+    marginBottom: 20,
+  },
+  navBar: {
+    padding: 5,
+    borderBottomWidth: 1,
+    height: 50,
+    borderBottomColor: palette.lightGrey,
+    backgroundColor: palette.navBarGrey,
+  },
+  navBarBtn: {
+    margin: 8,
+  },
+  navBarNoBtn: {
+    margin: 10,
+  },
+  navBarText: {
+    margin: 5,
+    ...fonts.bigFont
+  },
+};
 
 export const uiblocks = {
-  activityIndicator:{
+  activityIndicator: {
     marginTop: 20,
   },
   text: {
@@ -72,7 +104,7 @@ export const uiblocks = {
       borderColor: palette.darkBlue,
       backgroundColor: palette.darkBlue,
     },
-    checkMark:{
+    checkMark: {
       color: palette.white,
       marginRight: 10,
       ...fonts.boldFont

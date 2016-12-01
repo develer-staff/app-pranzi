@@ -57,7 +57,7 @@ export default class InsertUsername extends Component {
           disabled={ disabled }
           opacityCondition={ verifying }
           onPress={ this.onVerifyPressed }
-          text={"Verify"}
+          text={'Verify'}
         />
         {spinner}
       </View>

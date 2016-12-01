@@ -3,6 +3,7 @@ import CanDisableButton from './CanDisableButton';
 import ToggleButton from './ToggleButton';
 import CustomDatePicker from './CustomDatePicker';
 import CustomNavBar from './CustomNavBar';
+import Drawer from './Drawer';
 
 export {
   CustomTextInput,
@@ -10,4 +11,5 @@ export {
   ToggleButton,
   CustomDatePicker,
   CustomNavBar,
+  Drawer,
 };

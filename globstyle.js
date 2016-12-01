@@ -95,5 +95,8 @@ export const uiblocks = {
 export const images = {
   settings: {
     icon: require('./imgs/wheel.png'),
-  }
+  },
+  drawer: {
+    icon: require('./imgs/ic_drawer.png'),
+  },
 };

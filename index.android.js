@@ -46,7 +46,8 @@ export default class AppPranzi extends Component {
           usernameAvailable: username !== null
         });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log('error => ',e);
         this.setState({
           retrievingUsername: false,
           usernameAvailable: false

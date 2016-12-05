@@ -11,7 +11,7 @@ import {
 
 import Settings from './Settings.js';
 
-import { getUserInfo, addLunch, setUserInfo } from './utils.js';
+import { getUserInfo, addLunch } from './utils.js';
 
 import { uiblocks, pages } from './globstyle';
 
@@ -41,6 +41,7 @@ export default class InsertLunch extends Component {
     this.onDateChanged = this.onDateChanged.bind(this);
     this.onSendPressed = this.onSendPressed.bind(this);
     this.goToSettings = this.goToSettings.bind(this);
+    this.usernameModified = this.usernameModified.bind(this);
   }
 
   onDateChanged(date) {
@@ -87,7 +88,6 @@ export default class InsertLunch extends Component {
 
   onSelectDatePressed(date) {
     this.setState({ date: date });
-    // console.log(this.state.date);
   }
 
   toggleCourseSelection(course) {
@@ -108,20 +108,12 @@ export default class InsertLunch extends Component {
     });
   }
 
-  usernameModified(newUsername, cls) {
-    setUserInfo(newUsername)
-      .then(() => {
-        cls.setState({selectedUsername: newUsername});
-        Alert.alert('Information', 'Username was saverd correctly');
-      })
-      .catch(error => {
-        Alert.alert('Error', 'Unable to save username');
-        console.log('ERROR', error);
-      });
+  usernameModified(newUsername) {
+    this.setState({selectedUsername: newUsername});
   }
 
   goToSettings() {
-    navigator.push(Settings.getNext(this.usernameModified, this, this.state.selectedUsername));
+    navigator.push(Settings.getNext(this.usernameModified, this.state.selectedUsername));
   }
 
   renderDatePicker() {

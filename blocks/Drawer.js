@@ -22,6 +22,7 @@ export default class Drawer {
     let menu = null;
 
     let menuBtn = (<View style={styles.noBtn} />);
+    let drawerLock = 'locked-closed';
     if (openSettings) {
       menu = (
         <View style={styles.menuContainer}>
@@ -41,15 +42,16 @@ export default class Drawer {
           <Image source={images.drawer.icon} style={styles.settingsBtn}/>
         </TouchableOpacity>
       );
+      drawerLock = 'unlocked';
     }
 
     const finalView = (
       <DrawerLayoutAndroid
         style={{flex: 1}}
-        drawerWidth={200}
+        drawerWidth={250}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => menu}
-        drawerLockMode={'locked-closed'}
+        drawerLockMode={ drawerLock }
         ref={(draw) => { drawer = draw; }}>
         <View style={ styles.navbar }>
           { menuBtn }

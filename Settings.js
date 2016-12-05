@@ -11,7 +11,14 @@ import {
   Alert,
 } from 'react-native';
 
-import { getNotificationDays, verifyName } from './utils.js';
+import {
+ setNotificationDays,
+ setNotificationHour,
+ getNotificationTime,
+ setUserInfo,
+ NOTIFICATION_DAYS_KEY,
+ verifyName,
+} from './utils.js';
 
 import SelectNotificationDays from './SelectNotificationDays.js';
 
@@ -26,27 +33,24 @@ export default class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: this.props.username,
       notificationDays: 0,
-      verifying: false
       notificationTime: '0:0',
+      verifying: false,
+      saved: {
+        username: this.props.username,
+        notificationDays: 0,
+        notificationTime: '0:0',
+      },
     };
+    this.loading = true;
     navigator = this.props.navigator;
-    this.givenUsername = '';
 
     this.onSelectNotificationDaysPressed = this.onSelectNotificationDaysPressed.bind(this);
     this.notificationDaysChanged = this.notificationDaysChanged.bind(this);
     this.goBack = this.goBack.bind(this);
     this.hourSelected = this.hourSelected.bind(this);
 
-    getNotificationDays()
-      .then((days) => this.setState({notificationDays: parseInt(days)}))
-      .catch((error) => console.log('ERROR', error));
-  }
-
-  componentWillMount() {
-    this.setState({
-      username: this.props.username
     getNotificationTime().then((times) => {
       let days = null;
       let time = null;
@@ -67,12 +71,14 @@ export default class Settings extends Component {
       if (time) {
         actualTime = time;
       }
+      this.state.saved.notificationTime = actualTime;
+      this.state.saved.notificationDays = actualDays;
       this.setState({
         notificationTime: actualTime,
         notificationDays: actualDays,
       });
+      this.loading = false;
     });
-    this.givenUsername = this.props.username;
   }
 
   notificationDaysChanged(notificationDays) {
@@ -102,13 +108,16 @@ export default class Settings extends Component {
   }
 
   goBack() {
-    if (this.state.username === '') {
-      return;
+    if (this.state.username !== this.state.saved.username) {
+      this.setState({ verifying: true });
+
       verifyName(this.state.username.toLocaleLowerCase(), (found) => {
         if (found) {
           setUserInfo(this.state.username)
             .then(() => {
               this.props.callback(this.state.username);
+              this.state.saved.username = this.state.username;
+              this.setState(this.state);
             })
             .catch(error => {
               Alert.alert('Error', 'Unable to save username');
@@ -117,10 +126,29 @@ export default class Settings extends Component {
         } else {
           Alert.alert('Name not found', 'Unable to find name ' + this.state.username);
         }
+        this.setState({ verifying: false });
       });
     }
 
-    this.setState({ verifying: true });
+    let datesChanged = false;
+
+    if (this.state.notificationDays !== this.state.saved.notificationDays) {
+      datesChanged = true;
+      setNotificationDays('' + this.state.notificationDays).then(() => {
+        this.state.saved.notificationDays = this.state.notificationDays;
+        this.setState(this.state);
+      });
+    }
+
+    if (this.state.notificationTime !== this.state.saved.notificationTime) {
+      datesChanged = true;
+      setNotificationHour(this.state.notificationTime).then(() => {
+        this.state.saved.notificationTime = this.state.notificationTime;
+        this.setState(this.state);
+      });
+    }
+
+  }
 
   retrieveTime() {
     const timeParts = this.state.notificationTime.split(':');
@@ -130,9 +158,32 @@ export default class Settings extends Component {
     return [hour, minute];
   }
 
+  stateIsDirty() {
+    if (this.loading) {
+      return false;
+    }
+
+    console.log(JSON.stringify(this.state));
+
+    if (this.state.username !== this.state.saved.username) {
+      return true;
+    }
+
+    if (this.state.notificationDays !== this.state.saved.notificationDays) {
+      return true;
+    }
+
+    if (this.state.notificationTime !== this.state.saved.notificationTime) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
-    const condition = this.state.username === this.givenUsername;
+    const condition = !this.stateIsDirty();
+
     const [hour, minute] = this.retrieveTime();
 
     const view = (

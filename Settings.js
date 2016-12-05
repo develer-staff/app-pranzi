@@ -26,6 +26,8 @@ import { CustomTextInput, CanDisableButton, Drawer, CustomTimePicker } from './b
 
 import { uiblocks, pages } from './globstyle';
 
+import NotificationManager from './NotificationManager';
+
 let navigator;
 
 export default class Settings extends Component {
@@ -148,6 +150,45 @@ export default class Settings extends Component {
       });
     }
 
+    if (datesChanged) {
+      const today = new Date();
+
+      let days = [];
+
+      for(let i = 0; i < 7; i++){
+        let day = (this.state.notificationDays & Math.pow(2,i)) != 0;
+        days.push(day);
+      }
+
+      let dates = [];
+      const [hoursStr, minutesStr] = this.state.notificationTime.split(':');
+      const hours = parseInt(hoursStr);
+      const minutes = parseInt(minutesStr);
+
+      let dow = today.getDay();
+      let checked = 0;
+      let guard = 7;
+      // add one day if notification time is in the past
+      if (today.getHours() >= hours) {
+        dow = dow == 6 ? 0 : ++dow;
+        checked++;
+        guard++;
+      }
+
+      while (checked < guard) {
+        if (days[dow]){
+          let schedule = new Date();
+          schedule.setHours(hours, minutes, 0);
+          schedule.setDate(schedule.getDate() + checked);
+
+          dates.push(schedule);
+        }
+        dow = dow == 6 ? 0 : ++dow;
+        checked++;
+      }      
+
+      NotificationManager.resetNotifications(dates);
+    }
   }
 
   retrieveTime() {
@@ -162,8 +203,6 @@ export default class Settings extends Component {
     if (this.loading) {
       return false;
     }
-
-    console.log(JSON.stringify(this.state));
 
     if (this.state.username !== this.state.saved.username) {
       return true;

@@ -2,9 +2,9 @@ export default class NotificationManager {
 
   static clearNotifications() {}
 
-  static setNotification(date){}
+  static setNotification(date) {}
 
-  static setNotifications(...dates){}
+  static setNotifications(...dates) {}
 
-  static resetNotifications(...date){}
+  static resetNotifications(...date) {}
 }

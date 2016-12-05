@@ -6,7 +6,7 @@ export default class NotificationManager {
     PushNotification.cancelAllLocalNotifications();
   }
 
-  static setNotification(date){
+  static setNotification(date) {
     PushNotification.localNotificationSchedule({
       title: 'App Pranzi',
       message: 'Remember to register what you ate!',
@@ -15,14 +15,14 @@ export default class NotificationManager {
     });
   }
 
-  static setNotifications(...dates){
+  static setNotifications(...dates) {
     dates.forEach(date => {
-      setNotification(date);
+      NotificationManager.setNotification(date);
     });
   }
 
-  static resetNotifications(...dates){
-    clearNotifications();
-    setNotifications(dates);
+  static resetNotifications(...dates) {
+    NotificationManager.clearNotifications();
+    NotificationManager.setNotifications(dates);
   }
 }

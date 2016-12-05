@@ -75,7 +75,7 @@ export default class AppPranzi extends Component {
         initialRoute={ initial }
         renderScene={ this._renderScene }
         configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottomAndroid}
-        ref={(nav) => { this.navigator = nav;}}
+        ref={(nav) => { this.navigator = nav; }}
       />
     );
   }

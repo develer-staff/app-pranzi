@@ -9,7 +9,7 @@ import {
 
 import { uiblocks } from '../globstyle';
 
-export default class CustomTimePicker extends Component{
+export default class CustomTimePicker extends Component {
   constructor(props) {
     super(props);
     this.onSelectHourPressed = this.onSelectHourPressed.bind(this);
@@ -23,7 +23,7 @@ export default class CustomTimePicker extends Component{
     return timePart >= 10 ? timePart : '0' + timePart;
   }
 
-  render(){
+  render() {
     const { hour, minute } = this.props;
     const timeString = this.formatTimeParts(hour) + ':' + this.formatTimeParts(minute);
     return (

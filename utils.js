@@ -90,3 +90,15 @@ export function getNotificationDays() {
 export function setNotificationDays(days) {
   return AsyncStorage.setItem(NOTIFICATION_DAYS_KEY, days);
 }
+
+export function getNotificationHour() {
+  return AsyncStorage.getItem(NOTIFICATION_HOUR_KEY);
+}
+
+export function setNotificationHour(hour) {
+  return AsyncStorage.setItem(NOTIFICATION_HOUR_KEY, hour);
+}
+
+export function getNotificationTime() {
+  return AsyncStorage.multiGet([NOTIFICATION_DAYS_KEY, NOTIFICATION_HOUR_KEY]);
+}

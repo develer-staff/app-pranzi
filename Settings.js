@@ -15,7 +15,7 @@ import { getNotificationDays, verifyName } from './utils.js';
 
 import SelectNotificationDays from './SelectNotificationDays.js';
 
-import { CustomTextInput, CanDisableButton, Drawer } from './blocks';
+import { CustomTextInput, CanDisableButton, Drawer, CustomTimePicker } from './blocks';
 
 import { uiblocks, pages } from './globstyle';
 
@@ -29,6 +29,7 @@ export default class Settings extends Component {
       username: '',
       notificationDays: 0,
       verifying: false
+      notificationTime: '0:0',
     };
     navigator = this.props.navigator;
     this.givenUsername = '';
@@ -36,6 +37,7 @@ export default class Settings extends Component {
     this.onSelectNotificationDaysPressed = this.onSelectNotificationDaysPressed.bind(this);
     this.notificationDaysChanged = this.notificationDaysChanged.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.hourSelected = this.hourSelected.bind(this);
 
     getNotificationDays()
       .then((days) => this.setState({notificationDays: parseInt(days)}))
@@ -45,6 +47,30 @@ export default class Settings extends Component {
   componentWillMount() {
     this.setState({
       username: this.props.username
+    getNotificationTime().then((times) => {
+      let days = null;
+      let time = null;
+      if (times.length > 0) {
+        if (times[0][0] === NOTIFICATION_DAYS_KEY) {
+          days = times[0][1];
+          time = times[1][1];
+        } else {
+          time = times[0][1];
+          days = times[1][1];
+        }
+      }
+      let actualDays = 0;
+      let actualTime = '0:0';
+      if (parseInt(days)) {
+        actualDays = parseInt(days);
+      }
+      if (time) {
+        actualTime = time;
+      }
+      this.setState({
+        notificationTime: actualTime,
+        notificationDays: actualDays,
+      });
     });
     this.givenUsername = this.props.username;
   }
@@ -53,7 +79,13 @@ export default class Settings extends Component {
     this.setState({notificationDays});
   }
 
-  static getNext(callback, cls, username) {
+  hourSelected(newTime) {
+    const [hour, minute] = newTime;
+    const timeStr = hour + ':' + minute;
+    this.setState({notificationTime: timeStr});
+  }
+
+  static getNext(callback, username) {
     return {
       component: Settings,
       title: 'Settings',
@@ -65,7 +97,6 @@ export default class Settings extends Component {
       passProps: {
         callback: callback,
         username: username,
-        cls: cls,
       },
     };
   }
@@ -73,24 +104,36 @@ export default class Settings extends Component {
   goBack() {
     if (this.state.username === '') {
       return;
+      verifyName(this.state.username.toLocaleLowerCase(), (found) => {
+        if (found) {
+          setUserInfo(this.state.username)
+            .then(() => {
+              this.props.callback(this.state.username);
+            })
+            .catch(error => {
+              Alert.alert('Error', 'Unable to save username');
+              console.log('ERROR', error);
+            });
+        } else {
+          Alert.alert('Name not found', 'Unable to find name ' + this.state.username);
+        }
+      });
     }
 
     this.setState({ verifying: true });
 
-    verifyName(this.state.username.toLocaleLowerCase(), (found) => {
-      if (found) {
-        this.props.callback(this.state.username, this.props.cls);
-        this.givenUsername = this.state.username;
-      } else {
-        Alert.alert('Name not found', 'Unable to find name ' + this.state.username);
-      }
-      this.setState({ verifying: false });
-    });
+  retrieveTime() {
+    const timeParts = this.state.notificationTime.split(':');
+    const hour = parseInt(timeParts[0]);
+    const minute = parseInt(timeParts[1]);
+
+    return [hour, minute];
   }
 
   render() {
     const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
     const condition = this.state.username === this.givenUsername;
+    const [hour, minute] = this.retrieveTime();
 
     const view = (
       <View>
@@ -98,6 +141,11 @@ export default class Settings extends Component {
           <TouchableOpacity style={styles.button} onPress={this.onSelectNotificationDaysPressed}>
             <Text style={styles.buttonText}>Notification days</Text>
           </TouchableOpacity>
+          <CustomTimePicker
+            hour={hour}
+            minute={minute}
+            onSelected={this.hourSelected}
+          />
           <Text>Username</Text>
           <CustomTextInput
             value={this.state.username}
@@ -130,7 +178,6 @@ Settings.propTypes = {
   navigator: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
   callback: PropTypes.func.isRequired,
-  cls: PropTypes.object,
 };
 
 const { settings } = pages;

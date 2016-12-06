@@ -11,6 +11,8 @@ import { uiblocks } from '../globstyle';
 
 import SelectDate from './SelectDate.js';
 
+import { formatTimeParts } from '../utils.js';
+
 export default class CustomDatePicker extends Component {
   constructor(props) {
     super(props);
@@ -39,16 +41,12 @@ export default class CustomDatePicker extends Component {
     });
   }
 
-  formatDateParts(datePart) {
-    return datePart >= 10 ? datePart : '0' + datePart;
-  }
-
   render() {
     const { date } = this.props;
     console.log(date);
 
-    const day = this.formatDateParts(date.getDate());
-    const month = this.formatDateParts((date.getMonth() + 1));
+    const day = formatTimeParts(date.getDate());
+    const month = formatTimeParts((date.getMonth() + 1));
     const year = date.getFullYear();
 
     const dateString = date.toDateString() === new Date().toDateString() ? 'Today' : day + '/' + month + '/' + year;

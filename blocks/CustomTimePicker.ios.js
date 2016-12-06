@@ -9,6 +9,8 @@ import {
 
 import { uiblocks } from '../globstyle';
 
+import { formatTimeParts } from '../utils.js';
+
 export default class CustomTimePicker extends Component {
   constructor(props) {
     super(props);
@@ -19,13 +21,9 @@ export default class CustomTimePicker extends Component {
 
   }
 
-  formatTimeParts(timePart) {
-    return timePart >= 10 ? timePart : '0' + timePart;
-  }
-
   render() {
     const { hour, minute } = this.props;
-    const timeString = this.formatTimeParts(hour) + ':' + this.formatTimeParts(minute);
+    const timeString = formatTimeParts(hour) + ':' + this.formatTimeParts(minute);
     return (
       <TouchableOpacity style={defaultStyle.button} onPress={this.onSelectHourPressed}>
         <Text style={defaultStyle.text}>{timeString}</Text>

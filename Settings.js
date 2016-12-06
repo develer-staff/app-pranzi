@@ -67,8 +67,9 @@ export default class Settings extends Component {
       }
       let actualDays = 0;
       let actualTime = '0:0';
-      if (parseInt(days)) {
-        actualDays = parseInt(days);
+      const parsedDays = parseInt(days);
+      if (parsedDays) {
+        actualDays = parsedDays;
       }
       if (time) {
         actualTime = time;
@@ -110,15 +111,17 @@ export default class Settings extends Component {
   }
 
   goBack() {
-    if (this.state.username !== this.state.saved.username) {
+    const { username, notificationDays, notificationTime, saved } = this.state;
+
+    if (username !== saved.username) {
       this.setState({ verifying: true });
 
-      verifyName(this.state.username.toLocaleLowerCase(), (found) => {
+      verifyName(username.toLocaleLowerCase(), (found) => {
         if (found) {
-          setUserInfo(this.state.username)
+          setUserInfo(username)
             .then(() => {
-              this.props.callback(this.state.username);
-              this.state.saved.username = this.state.username;
+              this.props.callback(username);
+              saved.username = username;
               this.setState(this.state);
             })
             .catch(error => {
@@ -126,7 +129,7 @@ export default class Settings extends Component {
               console.log('ERROR', error);
             });
         } else {
-          Alert.alert('Name not found', 'Unable to find name ' + this.state.username);
+          Alert.alert('Name not found', 'Unable to find name ' + username);
         }
         this.setState({ verifying: false });
       });
@@ -134,18 +137,18 @@ export default class Settings extends Component {
 
     let datesChanged = false;
 
-    if (this.state.notificationDays !== this.state.saved.notificationDays) {
+    if (notificationDays !== saved.notificationDays) {
       datesChanged = true;
-      setNotificationDays('' + this.state.notificationDays).then(() => {
-        this.state.saved.notificationDays = this.state.notificationDays;
+      setNotificationDays('' + notificationDays).then(() => {
+        saved.notificationDays = notificationDays;
         this.setState(this.state);
       });
     }
 
-    if (this.state.notificationTime !== this.state.saved.notificationTime) {
+    if (notificationTime !== saved.notificationTime) {
       datesChanged = true;
-      setNotificationHour(this.state.notificationTime).then(() => {
-        this.state.saved.notificationTime = this.state.notificationTime;
+      setNotificationHour(notificationTime).then(() => {
+        saved.notificationTime = notificationTime;
         this.setState(this.state);
       });
     }
@@ -153,14 +156,14 @@ export default class Settings extends Component {
     if (datesChanged) {
       const today = new Date();
 
-      let days = [];
+      const days = [];
 
-      for(let i = 0; i < 7; i++){
-        let day = (this.state.notificationDays & Math.pow(2,i)) != 0;
+      for (let i = 0; i < 7; i++) {
+        const day = (this.state.notificationDays & Math.pow(2, i)) !== 0;
         days.push(day);
       }
 
-      let dates = [];
+      const dates = [];
       const [hoursStr, minutesStr] = this.state.notificationTime.split(':');
       const hours = parseInt(hoursStr);
       const minutes = parseInt(minutesStr);
@@ -170,22 +173,22 @@ export default class Settings extends Component {
       let guard = 7;
       // add one day if notification time is in the past
       if (today.getHours() >= hours) {
-        dow = dow == 6 ? 0 : ++dow;
+        dow = (dow + 1) % 7;
         checked++;
         guard++;
       }
 
       while (checked < guard) {
-        if (days[dow]){
-          let schedule = new Date();
+        if (days[dow]) {
+          const schedule = new Date();
           schedule.setHours(hours, minutes, 0);
           schedule.setDate(schedule.getDate() + checked);
 
           dates.push(schedule);
         }
-        dow = dow == 6 ? 0 : ++dow;
+        dow = (dow + 1) % 7;
         checked++;
-      }      
+      }
 
       NotificationManager.resetNotifications(dates);
     }
@@ -204,23 +207,48 @@ export default class Settings extends Component {
       return false;
     }
 
-    if (this.state.username !== this.state.saved.username) {
-      return true;
-    }
-
-    if (this.state.notificationDays !== this.state.saved.notificationDays) {
-      return true;
-    }
-
-    if (this.state.notificationTime !== this.state.saved.notificationTime) {
+    if ((this.state.username !== this.state.saved.username) ||
+        (this.state.notificationDays !== this.state.saved.notificationDays) ||
+        (this.state.notificationTime !== this.state.saved.notificationTime)) {
       return true;
     }
 
     return false;
   }
 
+  buildNotificationDaysButton() {
+    const dayNames = {
+      0: 'Sun',
+      1: 'Mon',
+      2: 'Tue',
+      3: 'Wed',
+      4: 'Thu',
+      5: 'Fri',
+      6: 'Sat',
+    };
+    const days = [];
+
+    for (let i = 0; i < 7; i++) {
+      const day = (this.state.notificationDays & Math.pow(2, i)) !== 0;
+      if (day) {
+        days.push(dayNames[i]);
+      }
+    }
+
+    let text = 'No notification day(s) set';
+    if (days.length > 0) {
+      text = days.join(', ');
+    }
+
+    return (
+      <TouchableOpacity style={styles.button} onPress={this.onSelectNotificationDaysPressed}>
+        <Text style={styles.buttonText}>{ text }</Text>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
-    const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
+    const spinner = this.state.verifying ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : null;
     const condition = !this.stateIsDirty();
 
     const [hour, minute] = this.retrieveTime();
@@ -228,9 +256,7 @@ export default class Settings extends Component {
     const view = (
       <View>
         <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={this.onSelectNotificationDaysPressed}>
-            <Text style={styles.buttonText}>Notification days</Text>
-          </TouchableOpacity>
+          { this.buildNotificationDaysButton() }
           <CustomTimePicker
             hour={hour}
             minute={minute}

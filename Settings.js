@@ -252,7 +252,7 @@ export default class Settings extends Component {
       </View>
     );
 
-    return Drawer.wrapView(view, 'Settings');
+    return Drawer.wrapView(view, 'Settings', null, this.props.navigator);
   }
 
   onSelectNotificationDaysPressed() {

@@ -11,7 +11,7 @@ export default class NotificationManager {
     PushNotification.localNotificationSchedule({
       title: 'App Pranzi',
       message: 'Remember to register what you ate!',
-      repeatType: 'hour',
+      repeatType: 'week',
       date: date,
     });
   }

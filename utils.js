@@ -102,3 +102,7 @@ export function setNotificationHour(hour) {
 export function getNotificationTime() {
   return AsyncStorage.multiGet([NOTIFICATION_DAYS_KEY, NOTIFICATION_HOUR_KEY]);
 }
+
+export function formatTimeParts(timePart) {
+  return timePart >= 10 ? timePart : '0' + timePart;
+}

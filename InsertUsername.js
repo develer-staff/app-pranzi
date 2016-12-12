@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
+import DismissKeyboard from 'dismissKeyboard';
 
 import {
   setStorageItem,
@@ -20,6 +21,7 @@ import InsertLunch from './InsertLunch';
 import { CustomTextInput, CanDisableButton } from './blocks';
 
 import { uiblocks, pages } from './globstyle';
+
 export default class InsertUsername extends Component {
 
   constructor(props) {
@@ -75,7 +77,8 @@ export default class InsertUsername extends Component {
       if (found) {
         setStorageItem(USERNAME_STORAGE_KEY, this.state.searchString)
           .then(() => {
-            this.props.navigator.push(InsertLunch.getNext());
+            this.props.navigator.replace(InsertLunch.getNext());
+            DismissKeyboard();
           })
           .catch(error => {
             Alert.alert('Error', 'Unable to save username');

@@ -19,39 +19,40 @@ export default class Drawer {
     }
 
     let drawer = null;
-    let button = null;
+    let menu = null;
+    let lockmode = 'locked-closed';
+
+    let menuBtn = null;
 
     if (openSettings) {
-      button = (
-        <TouchableOpacity style={ styles.menuRow }
-          onPress={() => { openSettings(); drawer.closeDrawer(); }}>
-          <Image source={ images.settings.icon } style={ styles.menuIcons }/>
-          <Text style={styles.menuText}>Settings</Text>
+      menu = (
+        <View style={styles.menuContainer}>
+          <View style={styles.menuHeading}>
+            <Text style={styles.menuHeadingText}>App Pranzi</Text>
+          </View>
+          <TouchableOpacity style={ styles.menuRow }
+            onPress={() => { openSettings(); drawer.closeDrawer(); }}>
+            <Image source={ images.settings.icon } style={ styles.menuIcons }/>
+            <Text style={styles.menuText}>Settings</Text>
+          </TouchableOpacity>
+        </View>
+      );
+      menuBtn = (
+        <TouchableOpacity style={ styles.button }
+          onPress={ () => drawer.openDrawer() }>
+          <Image source={images.drawer.icon} style={styles.settingsBtn}/>
         </TouchableOpacity>
       );
-    } else {
-      button = (
-        <TouchableOpacity style={ styles.menuRow }
-          onPress={() => { navigator.pop(); drawer.closeDrawer(); }}>
-          <Text style={styles.menuText}>Insert Lunch</Text>
+
+      lockmode = 'unlocked';
+    }else{
+      menuBtn = (
+        <TouchableOpacity style={ styles.button }
+          onPress={ () => navigator.pop() }>
+          <Image source={images.back.icon} style={styles.settingsBtn}/>
         </TouchableOpacity>
       );
     }
-
-    const menu = (
-      <View style={styles.menuContainer}>
-        <View style={styles.menuHeading}>
-          <Text style={styles.menuHeadingText}>App Pranzi</Text>
-        </View>
-        { button }
-      </View>
-    );
-    const menuBtn = (
-      <TouchableOpacity style={ styles.button }
-        onPress={ () => drawer.openDrawer() }>
-        <Image source={images.drawer.icon} style={styles.settingsBtn}/>
-      </TouchableOpacity>
-    );
 
     const finalView = (
       <DrawerLayoutAndroid
@@ -59,7 +60,7 @@ export default class Drawer {
         drawerWidth={250}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => menu}
-        drawerLockMode={ 'unlocked' }
+        drawerLockMode={ lockmode }
         ref={(draw) => { drawer = draw; }}>
         <View style={ styles.navbar }>
           { menuBtn }

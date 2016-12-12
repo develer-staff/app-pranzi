@@ -11,6 +11,8 @@ import {
 
 import { uiblocks, pages } from './globstyle';
 
+import { Drawer } from './blocks';
+
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
   'Friday', 'Saturday'];
 
@@ -28,11 +30,13 @@ export default class SelectNotificationDays extends Component {
 
   render() {
     const dayButtons = this.createDayButtons();
-    return (
+    const view = (
       <View style={styles.container}>
         {dayButtons}
       </View>
     );
+
+    return Drawer.wrapView(view, 'Select days', null, this.props.navigator); 
   }
 
   dayPressed(idx) {

@@ -131,4 +131,7 @@ export const images = {
   drawer: {
     icon: require('./imgs/ic_drawer.png'),
   },
+  back: {
+    icon: require('./imgs/left.png'),
+  },
 };

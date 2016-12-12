@@ -78,10 +78,18 @@ export default class InsertLunch extends Component {
 
   onSendPressed() {
     this.setState({ loading: true });
-    addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, COURSES.map((course) => {
-      return this.state.selectedCourses & course.value ? course.strToSend : '';
-    }).join(''), (result) => {
-      this.setState({ loading: false });
+    let lunch = null;
+
+    if( this.state.selectedCourses == 0 ){
+      lunch = 'Niente';
+    } else {
+      lunch = COURSES.map((course) => {
+        return this.state.selectedCourses & course.value ? course.strToSend : '';
+      }).join('');
+    }
+
+    addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, lunch, (result) => {
+      this.setState({ loading: false, selectedCourses: 0 });
       Alert.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
     });
   }
@@ -152,7 +160,7 @@ export default class InsertLunch extends Component {
             {courseButtons}
           </View>
           <View style={styles.bottomButtonsContainer}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={ () => {this.setState({selectedCourses: 0});} }>
               <Text style={styles.buttonText}>Nothing</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={this.onSendPressed}>

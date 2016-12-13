@@ -42,6 +42,7 @@ export default class InsertLunch extends Component {
     this.onSendPressed = this.onSendPressed.bind(this);
     this.goToSettings = this.goToSettings.bind(this);
     this.usernameModified = this.usernameModified.bind(this);
+    this.sendNothing = this.sendNothing.bind(this);
   }
 
   onDateChanged(date) {
@@ -77,19 +78,30 @@ export default class InsertLunch extends Component {
   }
 
   onSendPressed() {
+    if(this.state.selectedCourses === 0){
+      Alert.alert('Warning', 'You have to select what you ate!');
+      return;
+    }
+
     this.setState({ loading: true });
     let lunch = null;
 
-    if( this.state.selectedCourses == 0 ){
-      lunch = 'Niente';
-    } else {
-      lunch = COURSES.map((course) => {
-        return this.state.selectedCourses & course.value ? course.strToSend : '';
-      }).join('');
-    }
+    lunch = COURSES.map((course) => {
+      return this.state.selectedCourses & course.value ? course.strToSend : '';
+    }).join('');
 
     addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, lunch, (result) => {
       this.setState({ loading: false, selectedCourses: 0 });
+      Alert.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
+    });
+  }
+
+  sendNothing() {
+    this.setState({ loading: true, selectedCourses: 0 });
+    const lunch = 'Niente';
+
+    addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, lunch, (result) => {
+      this.setState({ loading: false });
       Alert.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
     });
   }
@@ -160,7 +172,7 @@ export default class InsertLunch extends Component {
             {courseButtons}
           </View>
           <View style={styles.bottomButtonsContainer}>
-            <TouchableOpacity style={styles.button} onPress={ () => {this.setState({selectedCourses: 0});} }>
+            <TouchableOpacity style={styles.button} onPress={this.sendNothing}>
               <Text style={styles.buttonText}>Nothing</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={this.onSendPressed}>

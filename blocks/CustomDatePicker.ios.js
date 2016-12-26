@@ -71,7 +71,6 @@ const { enabled, text } = uiblocks.button;
 
 const defaultStyle = StyleSheet.create({
   button: {
-    flex: 1,
     flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'center',

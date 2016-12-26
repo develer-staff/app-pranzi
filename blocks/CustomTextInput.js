@@ -35,9 +35,6 @@ const { textInput } = uiblocks;
 
 const defaultStyle = StyleSheet.create({
   input: {
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
     textAlign: 'center',
     ...textInput
   }

@@ -105,9 +105,6 @@ const styles = StyleSheet.create({
     ...text
   },
   container: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
     ...insertUsername
   },
   activityIndicator: {

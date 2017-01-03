@@ -161,12 +161,10 @@ export default class InsertLunch extends Component {
 
     const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
 
-    const datePicker = this.renderDatePicker();
-
     const completeView = (
       <View>
         <View style={styles.container}>
-          {datePicker}
+          {this.renderDatePicker()}
           <Text style={styles.description}>What did you eat?</Text>
           <View style={styles.courseButtonsContainer}>
             {courseButtons}

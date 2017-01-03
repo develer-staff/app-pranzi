@@ -23,7 +23,7 @@ export default class CustomTimePicker extends Component {
 
   render() {
     const { hour, minute } = this.props;
-    const timeString = formatTimeParts(hour) + ':' + this.formatTimeParts(minute);
+    const timeString = formatTimeParts(hour) + ':' + formatTimeParts(minute);
     return (
       <TouchableOpacity style={defaultStyle.button} onPress={this.onSelectHourPressed}>
         <Text style={defaultStyle.text}>{timeString}</Text>

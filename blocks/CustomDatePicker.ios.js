@@ -29,15 +29,9 @@ export default class CustomDatePicker extends Component {
       title: 'Select date',
       component: SelectDate,
       passProps: {
-        date: this.state.date,
+        date: this.props.date,
         onDateChanged: this.onDateChanged
       },
-      rightButtonTitle: 'Save',
-      onRightButtonPress: () => {
-        this.setState({ date: this.state.tempDate });
-        this.props.navigator.pop();
-      },
-      onLeftButtonPress: () => {}
     });
   }
 
@@ -71,7 +65,6 @@ const { enabled, text } = uiblocks.button;
 
 const defaultStyle = StyleSheet.create({
   button: {
-    flex: 1,
     flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'center',

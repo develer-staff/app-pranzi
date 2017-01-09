@@ -28,7 +28,7 @@ export default class CustomTextInput extends Component {
 CustomTextInput.propTypes = {
   value: PropTypes.string.isRequired,
   onChangeText: PropTypes.func.isRequired,
-  style: PropTypes.object
+  style: PropTypes.number
 };
 
 const { textInput } = uiblocks;

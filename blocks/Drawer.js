@@ -57,7 +57,7 @@ export default class Drawer {
     const finalView = (
       <DrawerLayoutAndroid
         style={{flex: 1}}
-        drawerWidth={250}
+        drawerWidth={200}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => menu}
         drawerLockMode={ lockmode }
@@ -74,29 +74,30 @@ export default class Drawer {
   }
 }
 
-const { button } = uiblocks.navbar.settings;
+const { button, itemBtn } = uiblocks.navbar.settings;
 const { menuHeading, navBar, navBarBtn, navBarNoBtn, navBarText } = pages;
 
 const styles = StyleSheet.create({
   menuContainer: {
     flex: 1,
-    alignItems: 'center',
   },
   menuRow: {
     flexDirection: 'row',
   },
   menuHeading: {
+    paddingLeft: 16,
     ...menuHeading
   },
   menuHeadingText: {
-    textAlign: 'center',
   },
   menuIcons: {
-    margin: 5,
-    ...button
+    marginLeft: 16,
+    marginTop: 4,
+    ...itemBtn
   },
   menuText: {
-    margin: 5,
+    marginBottom: 5,
+    marginLeft: 16,
   },
   navbar: {
     flexDirection: 'row',

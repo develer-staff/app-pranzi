@@ -8,7 +8,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 
 import {
@@ -19,6 +18,8 @@ import {
  NOTIFICATION_DAYS_KEY,
  verifyName,
 } from './utils.js';
+
+import AlertSystem from './AlertSystem';
 
 import SelectNotificationDays from './SelectNotificationDays.js';
 
@@ -125,11 +126,11 @@ export default class Settings extends Component {
               this.setState(this.state);
             })
             .catch(error => {
-              Alert.alert('Error', 'Unable to save username');
+              AlertSystem.alert('Error', 'Unable to save username');
               console.log('ERROR', error);
             });
         } else {
-          Alert.alert('Name not found', 'Unable to find name ' + username);
+          AlertSystem.alert('Name not found', 'Unable to find name ' + username);
         }
         this.setState({ verifying: false });
       });

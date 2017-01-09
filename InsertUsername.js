@@ -7,7 +7,6 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  Alert
 } from 'react-native';
 import DismissKeyboard from 'dismissKeyboard';
 
@@ -16,6 +15,8 @@ import {
   verifyName,
   USERNAME_STORAGE_KEY
 } from './utils.js';
+
+import AlertSystem from './AlertSystem';
 
 import InsertLunch from './InsertLunch';
 import { CustomTextInput, CanDisableButton } from './blocks';
@@ -81,11 +82,11 @@ export default class InsertUsername extends Component {
             DismissKeyboard();
           })
           .catch(error => {
-            Alert.alert('Error', 'Unable to save username');
+            AlertSystem.alert('Error', 'Unable to save username');
             console.log('ERROR', error);
           });
       } else {
-        Alert.alert('Name not found', 'Unable to find name ' + this.state.searchString);
+        AlertSystem.alert('Name not found', 'Unable to find name ' + this.state.searchString);
       }
       this.setState({ verifying: false });
     });

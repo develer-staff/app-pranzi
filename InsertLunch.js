@@ -5,11 +5,12 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 
 import Settings from './Settings.js';
+
+import AlertSystem from './AlertSystem';
 
 import { getUserInfo, addLunch } from './utils.js';
 
@@ -79,7 +80,7 @@ export default class InsertLunch extends Component {
 
   onSendPressed() {
     if(this.state.selectedCourses === 0){
-      Alert.alert('Warning', 'You have to select what you ate!');
+      AlertSystem.alert('Warning', 'You have to select what you ate!');
       return;
     }
 
@@ -92,7 +93,7 @@ export default class InsertLunch extends Component {
 
     addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, lunch, (result) => {
       this.setState({ loading: false, selectedCourses: 0 });
-      Alert.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
+      AlertSystem.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
     });
   }
 
@@ -102,7 +103,7 @@ export default class InsertLunch extends Component {
 
     addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, lunch, (result) => {
       this.setState({ loading: false });
-      Alert.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
+      AlertSystem.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
     });
   }
 

@@ -265,6 +265,7 @@ export default class Settings extends Component {
           />
           <Text>Username</Text>
           <CustomTextInput
+            style={ styles.userInput }
             value={this.state.username}
             onChangeText={(username) => this.setState({ username })}
           />
@@ -307,9 +308,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     ...settings
   },
-  usernameInput: {
-    flex: 4,
-    ...textInput
+  userInput: {
+    alignSelf: 'stretch',
   },
   button: {
     flex: 1,

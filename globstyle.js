@@ -41,11 +41,12 @@ export const pages = {
     ...commonPages
   },
   menuHeading: {
-    marginTop: 100,
-    borderBottomWidth: 2,
-    width: 180,
-    paddingBottom: 20,
-    marginBottom: 20,
+    paddingTop: 70,
+    borderBottomWidth: 1,
+    width: 200,
+    paddingBottom: 15,
+    marginBottom: 15,
+    backgroundColor: palette.navBarGrey,
   },
   navBar: {
     padding: 5,
@@ -119,6 +120,10 @@ export const uiblocks = {
       button: {
         height: 20,
         width: 20,
+      },
+      itemBtn: {
+        height: 13,
+        width: 13,
       },
     },
   },

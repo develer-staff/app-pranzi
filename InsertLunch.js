@@ -79,7 +79,7 @@ export default class InsertLunch extends Component {
   }
 
   onSendPressed() {
-    if(this.state.selectedCourses === 0){
+    if (this.state.selectedCourses === 0) {
       AlertSystem.alert('Warning', 'You have to select what you ate!');
       return;
     }

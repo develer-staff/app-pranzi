@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 export default class AlertSystem {
-    static alert(title, message){
-        Alert.alert(title, message);
-    }
+  static alert(title, message) {
+    Alert.alert(title, message);
+  }
 }

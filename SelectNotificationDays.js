@@ -36,7 +36,7 @@ export default class SelectNotificationDays extends Component {
       </View>
     );
 
-    return Drawer.wrapView(view, 'Select days', null, this.props.navigator); 
+    return Drawer.wrapView(view, 'Select days', null, this.props.navigator);
   }
 
   dayPressed(idx) {

@@ -45,7 +45,7 @@ export default class Drawer {
       );
 
       lockmode = 'unlocked';
-    }else{
+    } else {
       menuBtn = (
         <TouchableOpacity style={ styles.button }
           onPress={ () => navigator.pop() }>

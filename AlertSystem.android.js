@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 export default class AlertSystem {
-    static alert(title, message){
-        ToastAndroid.show(message, ToastAndroid.SHORT);
-    }
+  static alert(title, message) {
+    ToastAndroid.show(message, ToastAndroid.SHORT);
+  }
 }

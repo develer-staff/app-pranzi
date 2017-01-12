@@ -1,5 +1,7 @@
 import PushNotification from 'react-native-push-notification';
 
+import I18n from 'react-native-i18n';
+
 export default class NotificationManager {
 
   static clearNotifications() {
@@ -10,7 +12,7 @@ export default class NotificationManager {
     console.log(date);
     PushNotification.localNotificationSchedule({
       title: 'App Pranzi',
-      message: 'Remember to register what you ate!',
+      message: I18n.t('notificationText'),
       repeatType: 'week',
       date: date,
     });

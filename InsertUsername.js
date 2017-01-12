@@ -23,6 +23,8 @@ import { CustomTextInput, CanDisableButton } from './blocks';
 
 import { uiblocks, pages } from './globstyle';
 
+import I18n from 'react-native-i18n';
+
 export default class InsertUsername extends Component {
 
   constructor(props) {
@@ -39,7 +41,7 @@ export default class InsertUsername extends Component {
   static getNext() {
     return {
       component: InsertUsername,
-      title: 'Insert username'
+      title: I18n.t('insertUsername')
     };
   }
 
@@ -51,7 +53,7 @@ export default class InsertUsername extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.description}>Username</Text>
+        <Text style={styles.description}>{ I18n.t('username') }</Text>
         <CustomTextInput
           value={ searchString }
           onChangeText={(searchString) => this.setState({ searchString })}
@@ -60,7 +62,7 @@ export default class InsertUsername extends Component {
           disabled={ disabled }
           opacityCondition={ verifying }
           onPress={ this.onVerifyPressed }
-          text={'Verify'}
+          text={ I18n.t('verify') }
         />
         {spinner}
       </View>
@@ -82,11 +84,11 @@ export default class InsertUsername extends Component {
             DismissKeyboard();
           })
           .catch(error => {
-            AlertSystem.alert('Error', 'Unable to save username');
+            AlertSystem.alert(I18n.t('error'), I18n.t('unableSave'));
             console.log('ERROR', error);
           });
       } else {
-        AlertSystem.alert('Name not found', 'Unable to find name ' + this.state.searchString);
+        AlertSystem.alert(I18n.t('nameNotFound'), I18n.t('unableFind') + this.state.searchString);
       }
       this.setState({ verifying: false });
     });

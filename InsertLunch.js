@@ -18,12 +18,14 @@ import { uiblocks, pages } from './globstyle';
 
 import { ToggleButton, CustomDatePicker, Drawer } from './blocks';
 
+import I18n from 'react-native-i18n';
+
 const FIRST = 1;
 const SECOND = 2;
 const DESSERT = 4;
 
-const COURSES = [{ str: 'F', value: FIRST, strToSend: 'P' },
-{ str: 'S', value: SECOND, strToSend: 'S' }, { str: 'D', value: DESSERT, strToSend: 'D' }];
+const COURSES = [{ str: I18n.t('firstCourse'), value: FIRST, strToSend: 'P' },
+{ str: I18n.t('secondCourse'), value: SECOND, strToSend: 'S' }, { str: I18n.t('dessert'), value: DESSERT, strToSend: 'D' }];
 
 let navigator;
 
@@ -66,8 +68,8 @@ export default class InsertLunch extends Component {
   static getNext() {
     return {
       component: InsertLunch,
-      title: 'Lunch',
-      rightButtonTitle: 'Settings',
+      title: I18n.t('lunch'),
+      rightButtonTitle: I18n.t('settings'),
       onRightButtonPress: () => {
         navigator.push(Settings.getNext());
       },
@@ -80,7 +82,7 @@ export default class InsertLunch extends Component {
 
   onSendPressed() {
     if (this.state.selectedCourses === 0) {
-      AlertSystem.alert('Warning', 'You have to select what you ate!');
+      AlertSystem.alert(I18n.t('warning'), I18n.t('noSelected'));
       return;
     }
 
@@ -93,7 +95,7 @@ export default class InsertLunch extends Component {
 
     addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, lunch, (result) => {
       this.setState({ loading: false, selectedCourses: 0 });
-      AlertSystem.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
+      AlertSystem.alert(I18n.t('setResult'), result ? I18n.t('lunchSet') : I18n.t('lunchNotSet'));
     });
   }
 
@@ -103,7 +105,7 @@ export default class InsertLunch extends Component {
 
     addLunch(this.state.selectedUsername.toLocaleLowerCase(), this.state.date, lunch, (result) => {
       this.setState({ loading: false });
-      AlertSystem.alert('Set result', result ? 'Lunch set correctly' : 'Unable to set lunch');
+      AlertSystem.alert(I18n.t('setResult'), result ? I18n.t('lunchSet') : I18n.t('lunchNotSet'));
     });
   }
 
@@ -140,7 +142,7 @@ export default class InsertLunch extends Component {
   renderDatePicker() {
     return (
       <View>
-        <Text style={styles.description}>Select the day</Text>
+        <Text style={styles.description}>{ I18n.t('selectDay') }</Text>
         <CustomDatePicker
           navigator={this.props.navigator}
           onSelected={this.onSelectDatePressed}
@@ -157,7 +159,7 @@ export default class InsertLunch extends Component {
     let selectedUsername = null;
 
     if (this.state.selectedUsername !== '') {
-      selectedUsername = (<Text style={styles.description}>Selected username: {this.state.selectedUsername}</Text>);
+      selectedUsername = (<Text style={styles.description}>{ I18n.t('selectedUsername') }: {this.state.selectedUsername}</Text>);
     }
 
     const spinner = this.state.loading ? (<ActivityIndicator size='large' style={styles.activityIndicator} />) : (<View />);
@@ -166,16 +168,16 @@ export default class InsertLunch extends Component {
       <View>
         <View style={styles.container}>
           {this.renderDatePicker()}
-          <Text style={styles.description}>What did you eat?</Text>
+          <Text style={styles.description}>{ I18n.t('whatYouAte') }?</Text>
           <View style={styles.courseButtonsContainer}>
             {courseButtons}
           </View>
           <View style={styles.bottomButtonsContainer}>
             <TouchableOpacity style={styles.button} onPress={this.sendNothing}>
-              <Text style={styles.buttonText}>Nothing</Text>
+              <Text style={styles.buttonText}>{ I18n.t('nothing') }</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={this.onSendPressed}>
-              <Text style={styles.buttonText}>Send</Text>
+              <Text style={styles.buttonText}>{ I18n.t('send') }</Text>
             </TouchableOpacity>
           </View>
           {selectedUsername}
@@ -184,7 +186,7 @@ export default class InsertLunch extends Component {
       </View>
     );
 
-    return Drawer.wrapView(completeView, 'Lunch', this.goToSettings);
+    return Drawer.wrapView(completeView, I18n.t('lunch'), this.goToSettings);
   }
 
 }

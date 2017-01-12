@@ -11,6 +11,8 @@ import {
 
 import { uiblocks, images, pages } from '../globstyle';
 
+import I18n from 'react-native-i18n';
+
 export default class Drawer {
 
   static wrapView(view, text, openSettings, navigator) {
@@ -33,7 +35,7 @@ export default class Drawer {
           <TouchableOpacity style={ styles.menuRow }
             onPress={() => { openSettings(); drawer.closeDrawer(); }}>
             <Image source={ images.settings.icon } style={ styles.menuIcons }/>
-            <Text style={styles.menuText}>Settings</Text>
+            <Text style={styles.menuText}>{ I18n.t('settings') }</Text>
           </TouchableOpacity>
         </View>
       );

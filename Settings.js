@@ -29,6 +29,8 @@ import { uiblocks, pages } from './globstyle';
 
 import NotificationManager from './NotificationManager';
 
+import I18n from 'react-native-i18n';
+
 let navigator;
 
 export default class Settings extends Component {
@@ -98,8 +100,8 @@ export default class Settings extends Component {
   static getNext(callback, username) {
     return {
       component: Settings,
-      title: 'Settings',
-      rightButtonTitle: 'Save',
+      title: I18n.t('settings'),
+      rightButtonTitle: I18n.t('save'),
       onRightButtonPress: () => {
         // TODO: save the state
         navigator.pop();
@@ -126,11 +128,11 @@ export default class Settings extends Component {
               this.setState(this.state);
             })
             .catch(error => {
-              AlertSystem.alert('Error', 'Unable to save username');
+              AlertSystem.alert(I18n.t('error'), I18n.t('unableSave'));
               console.log('ERROR', error);
             });
         } else {
-          AlertSystem.alert('Name not found', 'Unable to find name ' + username);
+          AlertSystem.alert(I18n.t('nameNotFound'), I18n.t('unableFind') + username);
         }
         this.setState({ verifying: false });
       });
@@ -219,13 +221,13 @@ export default class Settings extends Component {
 
   buildNotificationDaysButton() {
     const dayNames = {
-      0: 'Sun',
-      1: 'Mon',
-      2: 'Tue',
-      3: 'Wed',
-      4: 'Thu',
-      5: 'Fri',
-      6: 'Sat',
+      0: I18n.t('sunShort'),
+      1: I18n.t('monShort'),
+      2: I18n.t('tueShort'),
+      3: I18n.t('wedShort'),
+      4: I18n.t('thuShort'),
+      5: I18n.t('friShort'),
+      6: I18n.t('satShort'),
     };
     const days = [];
 
@@ -236,7 +238,7 @@ export default class Settings extends Component {
       }
     }
 
-    let text = 'No notification day(s) set';
+    let text = I18n.t('noDays');
     if (days.length > 0) {
       text = days.join(', ');
     }
@@ -263,7 +265,7 @@ export default class Settings extends Component {
             minute={minute}
             onSelected={this.hourSelected}
           />
-          <Text>Username</Text>
+          <Text>{ I18n.t('username') }</Text>
           <CustomTextInput
             style={ styles.userInput }
             value={this.state.username}
@@ -273,14 +275,14 @@ export default class Settings extends Component {
             disabled={condition}
             opacityCondition={true}
             onPress={this.goBack}
-            text={'Save'}
+            text={ I18n.t('save') }
           />
         </View>
         {spinner}
       </View>
     );
 
-    return Drawer.wrapView(view, 'Settings', null, this.props.navigator);
+    return Drawer.wrapView(view, I18n.t('settings'), null, this.props.navigator);
   }
 
   onSelectNotificationDaysPressed() {

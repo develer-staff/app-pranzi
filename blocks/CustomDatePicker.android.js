@@ -12,6 +12,8 @@ import { uiblocks } from '../globstyle';
 
 import { formatTimeParts } from '../utils.js';
 
+import I18n from 'react-native-i18n';
+
 export default class CustomDatePicker extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +57,7 @@ export default class CustomDatePicker extends Component {
     const month = formatTimeParts((date.getMonth() + 1));
     const year = date.getFullYear();
 
-    const dateString = date.toDateString() === new Date().toDateString() ? 'Today' : day + '/' + month + '/' + year;
+    const dateString = date.toDateString() === new Date().toDateString() ? I18n.t('today') : day + '/' + month + '/' + year;
 
     return (
         <TouchableOpacity style={defaultStyle.button} onPress={this.onSelectDatePressed}>

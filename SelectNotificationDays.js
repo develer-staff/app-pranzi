@@ -13,8 +13,17 @@ import { uiblocks, pages } from './globstyle';
 
 import { Drawer } from './blocks';
 
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-  'Friday', 'Saturday'];
+import I18n from 'react-native-i18n';
+
+const days = [
+  I18n.t('sun'),
+  I18n.t('mon'),
+  I18n.t('tue'),
+  I18n.t('wed'),
+  I18n.t('thu'),
+  I18n.t('fri'),
+  I18n.t('sat')
+];
 
 let selectedDays;
 
@@ -36,7 +45,7 @@ export default class SelectNotificationDays extends Component {
       </View>
     );
 
-    return Drawer.wrapView(view, 'Select days', null, this.props.navigator);
+    return Drawer.wrapView(view, I18n.t('selectDays'), null, this.props.navigator);
   }
 
   dayPressed(idx) {
@@ -47,7 +56,7 @@ export default class SelectNotificationDays extends Component {
 
   static getNext(passProps) {
     return {
-      title: 'Notification days',
+      title: I18n.t('notificationDays'),
       component: SelectNotificationDays,
       passProps: passProps
     };

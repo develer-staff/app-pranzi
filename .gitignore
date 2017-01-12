@@ -42,4 +42,4 @@ android/app/libs
 android/keystores/debug.keystore
 .vscode
 
-urls.js
+config.prod.json

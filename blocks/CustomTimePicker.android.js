@@ -43,10 +43,16 @@ export default class CustomTimePicker extends Component {
   }
 
   render() {
-    const { hour, minute } = this.props;
+    const { hour, minute, disabled } = this.props;
     const timeString = formatTimeParts(hour) + ':' + formatTimeParts(minute);
+
+    const style = [defaultStyle.button, disabled ? defaultStyle.disabled : null];
+
     return (
-      <TouchableOpacity style={defaultStyle.button} onPress={this.onSelectHourPressed}>
+      <TouchableOpacity
+        style={style}
+        onPress={this.onSelectHourPressed}
+        disabled={ disabled }>
         <Text style={defaultStyle.text}>{timeString}</Text>
       </TouchableOpacity>
     );
@@ -57,9 +63,10 @@ CustomTimePicker.propTypes = {
   hour: PropTypes.number.isRequired,
   minute: PropTypes.number.isRequired,
   onSelected: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
-const { enabled, text } = uiblocks.button;
+const { enabled, disabled, text } = uiblocks.button;
 
 const defaultStyle = StyleSheet.create({
   button: {
@@ -70,6 +77,9 @@ const defaultStyle = StyleSheet.create({
     marginRight: 5,
     padding: 4,
     ...enabled
+  },
+  disabled: {
+    ...disabled
   },
   text: {
     alignSelf: 'center',

@@ -51,7 +51,7 @@ export default class CustomDatePicker extends Component {
   }
 
   render() {
-    const { date } = this.props;
+    const { date, disabled } = this.props;
 
     const day = formatTimeParts(date.getDate());
     const month = formatTimeParts((date.getMonth() + 1));
@@ -59,8 +59,13 @@ export default class CustomDatePicker extends Component {
 
     const dateString = date.toDateString() === new Date().toDateString() ? I18n.t('today') : day + '/' + month + '/' + year;
 
+    const style = [defaultStyle.button, disabled ? defaultStyle.disabled : null];
+
     return (
-        <TouchableOpacity style={defaultStyle.button} onPress={this.onSelectDatePressed}>
+        <TouchableOpacity 
+          style={style}
+          onPress={this.onSelectDatePressed}
+          disabled={ disabled }>
           <Text style={defaultStyle.text}>{dateString}</Text>
         </TouchableOpacity>
     );
@@ -71,11 +76,12 @@ CustomDatePicker.propTypes = {
   navigator: PropTypes.object.isRequired,
   onSelected: PropTypes.func.isRequired,
   date: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
   minDate: PropTypes.object,
   maxDate: PropTypes.object,
 };
 
-const { enabled, text } = uiblocks.button;
+const { enabled, disabled, text } = uiblocks.button;
 
 const defaultStyle = StyleSheet.create({
   button: {
@@ -85,6 +91,9 @@ const defaultStyle = StyleSheet.create({
     justifyContent: 'center',
     margin: 10,
     ...enabled
+  },
+  disabled: {
+    ...disabled
   },
   text: {
     alignSelf: 'center',

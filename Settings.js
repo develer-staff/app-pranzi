@@ -256,6 +256,8 @@ export default class Settings extends Component {
 
     const [hour, minute] = this.retrieveTime();
 
+    const disabled = this.state.notificationDays === 0;
+
     const view = (
       <View>
         <View style={styles.container}>
@@ -264,6 +266,7 @@ export default class Settings extends Component {
             hour={hour}
             minute={minute}
             onSelected={this.hourSelected}
+            disabled={ disabled }
           />
           <Text>{ I18n.t('username') }</Text>
           <CustomTextInput

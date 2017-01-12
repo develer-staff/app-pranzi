@@ -16,13 +16,13 @@ import { Drawer } from './blocks';
 import I18n from 'react-native-i18n';
 
 const days = [
-  I18n.t('sun'),
   I18n.t('mon'),
   I18n.t('tue'),
   I18n.t('wed'),
   I18n.t('thu'),
   I18n.t('fri'),
-  I18n.t('sat')
+  I18n.t('sat'),
+  I18n.t('sun'),
 ];
 
 let selectedDays;

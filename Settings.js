@@ -171,7 +171,7 @@ export default class Settings extends Component {
       const hours = parseInt(hoursStr);
       const minutes = parseInt(minutesStr);
 
-      let dow = today.getDay();
+      let dow = (today.getDay() - 1) >= 0 ? (today.getDay() - 1) : 0;
       let checked = 0;
       let guard = 7;
       // add one day if notification time is in the past
@@ -221,13 +221,13 @@ export default class Settings extends Component {
 
   buildNotificationDaysButton() {
     const dayNames = {
-      0: I18n.t('sunShort'),
-      1: I18n.t('monShort'),
-      2: I18n.t('tueShort'),
-      3: I18n.t('wedShort'),
-      4: I18n.t('thuShort'),
-      5: I18n.t('friShort'),
-      6: I18n.t('satShort'),
+      0: I18n.t('monShort'),
+      1: I18n.t('tueShort'),
+      2: I18n.t('wedShort'),
+      3: I18n.t('thuShort'),
+      4: I18n.t('friShort'),
+      5: I18n.t('satShort'),
+      6: I18n.t('sunShort'),
     };
     const days = [];
 

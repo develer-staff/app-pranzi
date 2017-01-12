@@ -26,7 +26,7 @@ export default class CustomTextInput extends Component {
 }
 
 CustomTextInput.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChangeText: PropTypes.func.isRequired,
   style: PropTypes.number
 };

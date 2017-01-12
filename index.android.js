@@ -1,4 +1,5 @@
 /**
+/**
  * Sample React Native App
  * https://github.com/facebook/react-native
  * @flow
@@ -15,7 +16,7 @@ import {
   BackAndroid,
 } from 'react-native';
 
-import InsertUsername from './InsertUsername.js';
+import Settings from './Settings.js';
 
 import InsertLunch from './InsertLunch';
 
@@ -68,7 +69,7 @@ export default class AppPranzi extends Component {
         </View>);
     }
 
-    const initial = this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext();
+    const initial = this.state.usernameAvailable ? InsertLunch.getNext() : Settings.getNext();
 
     return (
       <Navigator

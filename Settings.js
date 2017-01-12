@@ -31,6 +31,8 @@ import NotificationManager from './NotificationManager';
 
 import I18n from 'react-native-i18n';
 
+import InsertLunch from './InsertLunch';
+
 let navigator;
 
 export default class Settings extends Component {
@@ -123,6 +125,10 @@ export default class Settings extends Component {
         if (found) {
           setUserInfo(username)
             .then(() => {
+              if ( !this.props.username ){
+                this.props.navigator.replace(InsertLunch.getNext());
+                return;
+              }
               this.props.callback(username);
               saved.username = username;
               this.setState(this.state);
@@ -210,6 +216,12 @@ export default class Settings extends Component {
       return false;
     }
 
+    if (!this.props.username) {
+      if( !this.state.username ){
+        return false;
+      }
+    }
+
     if ((this.state.username !== this.state.saved.username) ||
         (this.state.notificationDays !== this.state.saved.notificationDays) ||
         (this.state.notificationTime !== this.state.saved.notificationTime)) {
@@ -258,6 +270,8 @@ export default class Settings extends Component {
 
     const disabled = this.state.notificationDays === 0;
 
+    const text = this.props.username ? I18n.t('save') : I18n.t('verify');
+
     const view = (
       <View>
         <View style={styles.container}>
@@ -278,14 +292,14 @@ export default class Settings extends Component {
             disabled={condition}
             opacityCondition={true}
             onPress={this.goBack}
-            text={ I18n.t('save') }
+            text={ text }
           />
         </View>
         {spinner}
       </View>
     );
 
-    return Drawer.wrapView(view, I18n.t('settings'), null, this.props.navigator);
+    return this.props.username ? Drawer.wrapView(view, I18n.t('settings'), null, this.props.navigator) : view;
   }
 
   onSelectNotificationDaysPressed() {
@@ -299,8 +313,8 @@ export default class Settings extends Component {
 
 Settings.propTypes = {
   navigator: PropTypes.object.isRequired,
-  username: PropTypes.string.isRequired,
-  callback: PropTypes.func.isRequired,
+  username: PropTypes.string,
+  callback: PropTypes.func,
 };
 
 const { settings } = pages;

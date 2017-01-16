@@ -42,12 +42,12 @@ export default class Settings extends Component {
     this.state = {
       username: this.props.username,
       notificationDays: 0,
-      notificationTime: '0:0',
+      notificationTime: '14:30',
       verifying: false,
       saved: {
         username: this.props.username,
         notificationDays: 0,
-        notificationTime: '0:0',
+        notificationTime: '14:30',
       },
     };
     this.loading = true;
@@ -71,7 +71,7 @@ export default class Settings extends Component {
         }
       }
       let actualDays = 0;
-      let actualTime = '0:0';
+      let actualTime = '14:30';
       const parsedDays = parseInt(days);
       if (parsedDays) {
         actualDays = parsedDays;

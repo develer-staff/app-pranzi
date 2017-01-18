@@ -820,7 +820,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.AppPranzia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.develer.apppranzi;
 				PRODUCT_NAME = AppPranzi;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -846,7 +846,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.AppPranzia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.develer.apppranzi;
 				PRODUCT_NAME = AppPranzi;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

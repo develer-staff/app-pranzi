@@ -822,6 +822,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.develer.apppranzi;
 				PRODUCT_NAME = AppPranzi;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -848,6 +849,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.develer.apppranzi;
 				PRODUCT_NAME = AppPranzi;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

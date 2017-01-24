@@ -16,7 +16,7 @@
  *
  */
 
-var SCRIPT_VERSION = "1.1.0";
+var SCRIPT_VERSION = "1.2.0";
 var TUTTO_PRANZI = "1Ox0nwWTKa_PgM7O6ZfMrbRyOcscjCkOdUKn0QNV91Rk"
 
 
@@ -111,6 +111,17 @@ function insertLunch(e) {
  */
 function doGet(e) {
   var msg = '';
+
+  /**
+   * In case the "func" parameter is not defined we fall back to the
+   * "insert lunch" function for today.
+   */
+  if (e.parameter.func == undefined) {
+    var today = new Date();
+    var todayStr = today.getDate() + '-' + today.getMonth() + '-' + today.getFullYear();
+    e.parameter['func'] = 'insert';
+    e.parameter['date'] = todayStr;
+  }
 
   if (e.parameter.func === 'insert') {
     msg = insertLunch(e);

@@ -64,7 +64,7 @@ export default class SelectNotificationDays extends Component {
 
   createDayButtons() {
     return days.map((day, i) => {
-      const checkmark = this.state.selectedDays & Math.pow(2, i) ? '✓' : '';
+      const checkmark = this.state.selectedDays & Math.pow(2, i) ? ' ✓' : '';
       return (
         <TouchableOpacity style={styles.button} key={i} onPress={() => this.dayPressed(i)}>
           <View style={styles.dayRow}>

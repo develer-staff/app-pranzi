@@ -42,16 +42,13 @@ const { enabled, text } = uiblocks.button;
 
 const defaultStyle = StyleSheet.create({
   button: {
-    flex: 1,
-    flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'center',
-    marginRight: 5,
     padding: 4,
+    alignItems: 'center',
     ...enabled
   },
   text: {
-    alignSelf: 'center',
     ...text
   }
 });

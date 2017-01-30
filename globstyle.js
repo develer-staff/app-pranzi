@@ -80,7 +80,6 @@ export const uiblocks = {
   textInput: {
     height: 36,
     padding: 4,
-    marginRight: 5,
     marginBottom: 20,
     borderWidth: 1,
     borderRadius: 8,

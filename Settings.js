@@ -273,16 +273,16 @@ export default class Settings extends Component {
     const text = this.props.username ? I18n.t('save') : I18n.t('verify');
 
     const view = (
-      <View>
-        <View style={styles.container}>
-          { this.buildNotificationDaysButton() }
+      <View style={styles.container}>
+        <View style={styles.bodyContainer}>
+          {this.buildNotificationDaysButton()}
           <CustomTimePicker
             hour={hour}
             minute={minute}
             onSelected={this.hourSelected}
             disabled={ disabled }
           />
-          <Text>{ I18n.t('username') }</Text>
+          <Text>{I18n.t('username')}</Text>
           <CustomTextInput
             style={ styles.userInput }
             value={this.state.username}
@@ -318,29 +318,27 @@ Settings.propTypes = {
 };
 
 const { settings } = pages;
-const { textInput, button } = uiblocks;
+const { button } = uiblocks;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
+    flex: 1,
     ...settings
+  },
+  bodyContainer: {
+    alignItems: 'center',
   },
   userInput: {
     alignSelf: 'stretch',
   },
   button: {
-    flex: 1,
-    flexDirection: 'row',
     alignSelf: 'stretch',
+    alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 5,
     padding: 4,
     ...button.enabled
   },
   buttonText: {
-    alignSelf: 'center',
     ...button.text
   }
 });

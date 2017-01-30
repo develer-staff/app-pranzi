@@ -5,10 +5,10 @@ import {
   NavigatorIOS,
   ActivityIndicator,
   View,
-  Text
+  Text,
 } from 'react-native';
 
-import InsertUsername from './InsertUsername.js';
+import Settings from './Settings.js';
 
 import InsertLunch from './InsertLunch';
 
@@ -48,9 +48,12 @@ export default class AppPranzi extends Component {
         </View>);
     }
 
+    const initial = this.state.usernameAvailable ? InsertLunch.getNext() : Settings.getNext();
+
     return (
-      <NavigatorIOS style={styles.container}
-        initialRoute={this.state.usernameAvailable ? InsertLunch.getNext() : InsertUsername.getNext()}
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={initial}
         />
     );
   }

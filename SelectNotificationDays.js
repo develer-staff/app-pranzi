@@ -64,7 +64,7 @@ export default class SelectNotificationDays extends Component {
 
   createDayButtons() {
     return days.map((day, i) => {
-      const checkmark = this.state.selectedDays & Math.pow(2, i) ? '✓' : '';
+      const checkmark = this.state.selectedDays & Math.pow(2, i) ? ' ✓' : '';
       return (
         <TouchableOpacity style={styles.button} key={i} onPress={() => this.dayPressed(i)}>
           <View style={styles.dayRow}>
@@ -89,29 +89,21 @@ const { enabled, checkMark, text } = uiblocks.button;
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
     ...selectNotificationDays
   },
   dayRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1
   },
   checkMark: {
     alignSelf: 'center',
     ...checkMark
   },
   button: {
-    flex: 1,
-    flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'center',
-    margin: 10,
     ...enabled
   },
   buttonText: {
-    alignSelf: 'center',
     marginLeft: 10,
     ...text
   }

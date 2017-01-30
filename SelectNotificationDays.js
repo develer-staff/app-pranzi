@@ -89,29 +89,21 @@ const { enabled, checkMark, text } = uiblocks.button;
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
     ...selectNotificationDays
   },
   dayRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1
   },
   checkMark: {
     alignSelf: 'center',
     ...checkMark
   },
   button: {
-    flex: 1,
-    flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'center',
-    margin: 10,
     ...enabled
   },
   buttonText: {
-    alignSelf: 'center',
     marginLeft: 10,
     ...text
   }

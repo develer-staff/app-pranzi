@@ -181,7 +181,7 @@ export default class Settings extends Component {
       let checked = 0;
       let guard = 7;
       // add one day if notification time is in the past
-      if (today.getHours() >= hours) {
+      if (today.getHours() > hours || today.getMinutes() > minutes) {
         dow = (dow + 1) % 7;
         checked++;
         guard++;

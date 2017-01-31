@@ -6,7 +6,10 @@ import {
   ActivityIndicator,
   View,
   Text,
+  AlertIOS,
 } from 'react-native';
+
+import PushNotification from 'react-native-push-notification';
 
 import Settings from './Settings.js';
 
@@ -38,6 +41,18 @@ export default class AppPranzi extends Component {
         });
       });
   }
+
+
+  componentDidMount() {
+    PushNotification.configure({
+      onNotification: (notification) => {
+        AlertIOS.alert('App Pranzi', notification.message);
+      },
+      permissions: { alert: true, badge: true, sound: true },
+      requestPermissions: true,
+    });
+  }
+
 
   render() {
     if (this.state.retrievingUsername) {

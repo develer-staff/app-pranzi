@@ -1,30 +1,25 @@
-import PushNotification from 'react-native-push-notification';
+import { PushNotificationIOS } from 'react-native';
 
 import I18n from 'react-native-i18n';
 
 export default class NotificationManager {
 
   static clearNotifications() {
-    PushNotification.cancelAllLocalNotifications();
+    PushNotificationIOS.cancelAllLocalNotifications();
   }
 
   static setNotification(date) {
-    console.log('Setting notification for date: ');
-    console.log(date);
-    PushNotification.localNotificationSchedule({
-      title: 'App Pranzi',
-      message: I18n.t('notificationText'),
-      repeatType: 'week',
-      date: date,
+    PushNotificationIOS.scheduleLocalNotification({
+      fireDate: date.toISOString(),
+      alertBody: I18n.t('notificationText'),
+      repeatInterval: 'week',
     });
   }
 
   static scheduleNotificationInSecs(secs) {
-    console.log(`Scheduling local notification in ${secs} seconds`);
-    PushNotification.localNotificationSchedule({
-      title: 'App Pranzi',
-      message: I18n.t('notificationText'),
-      date: new Date(Date.now() + secs * 1000),
+    PushNotificationIOS.scheduleLocalNotification({
+      fireDate: new Date(Date.now() + secs * 1000).toISOString(),
+      alertBody: I18n.t('notificationText'),
     });
   }
 
